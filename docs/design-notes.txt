@@ -1,0 +1,8 @@
+Colors:
+Background: #0f0e1a
+Card: #1c1a2e
+Primary (purple): #8b5cf6
+Accent (cyan): #22d3ee
+Text: #f1f0ff
+
+Font: Poppins (Google Fonts)
