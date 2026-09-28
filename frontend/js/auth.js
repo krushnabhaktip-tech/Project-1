@@ -70,3 +70,35 @@ if (registerForm) {
     }
   });
 }
+// ---------- Login form ----------
+const loginForm = document.getElementById('loginForm');
+
+if (loginForm) {
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    let valid = true;
+
+    setError('emailError', '');
+    setError('passwordError', '');
+
+    if (!isValidEmail(email)) {
+      setError('emailError', 'Please enter a valid email');
+      valid = false;
+    }
+    if (password.length === 0) {
+      setError('passwordError', 'Please enter your password');
+      valid = false;
+    }
+
+    const msg = document.getElementById('formMessage');
+    if (valid) {
+      msg.style.color = 'var(--success)';
+      msg.textContent = 'Form is valid! (Server connection comes on Day 7)';
+    } else {
+      msg.textContent = '';
+    }
+  });
+}
