@@ -12,3 +12,61 @@ if (showPassword) {
     }
   });
 }
+
+// ---------- Helper functions ----------
+function setError(id, message) {
+  document.getElementById(id).textContent = message;
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function isStrongPassword(password) {
+  return password.length >= 8 && /[A-Za-z]/.test(password) && /[0-9]/.test(password);
+}
+
+// ---------- Register form ----------
+const registerForm = document.getElementById('registerForm');
+
+if (registerForm) {
+  registerForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    let valid = true;
+
+    setError('nameError', '');
+    setError('emailError', '');
+    setError('passwordError', '');
+    setError('confirmError', '');
+
+    if (name.length < 2) {
+      setError('nameError', 'Please enter your name (min 2 letters)');
+      valid = false;
+    }
+    if (!isValidEmail(email)) {
+      setError('emailError', 'Please enter a valid email');
+      valid = false;
+    }
+    if (!isStrongPassword(password)) {
+      setError('passwordError', 'Min 8 characters with letters and numbers');
+      valid = false;
+    }
+    if (password !== confirmPassword) {
+      setError('confirmError', 'Passwords do not match');
+      valid = false;
+    }
+
+    const msg = document.getElementById('formMessage');
+    if (valid) {
+      msg.style.color = 'var(--success)';
+      msg.textContent = 'Form is valid! (Server connection comes on Day 6)';
+    } else {
+      msg.textContent = '';
+    }
+  });
+}
