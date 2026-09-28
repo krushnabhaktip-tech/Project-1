@@ -1,0 +1,46 @@
+:root {
+  --bg: #0f0e1a;
+  --card: #1c1a2e;
+  --primary: #8b5cf6;
+  --accent: #22d3ee;
+  --text: #f1f0ff;
+  --error: #f87171;
+  --success: #4ade80;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-card {
+  background: var(--card);
+  width: 100%;
+  max-width: 400px;
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid #2e2b4a;
+}
+
+.auth-card h1 {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+
+.auth-card .subtitle {
+  color: var(--accent);
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+}
