@@ -30,7 +30,7 @@ function isStrongPassword(password) {
 const registerForm = document.getElementById('registerForm');
 
 if (registerForm) {
-  registerForm.addEventListener('submit', function (e) {
+  registerForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const name = document.getElementById('name').value.trim();
