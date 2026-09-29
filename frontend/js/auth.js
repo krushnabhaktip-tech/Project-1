@@ -93,12 +93,39 @@ if (loginForm) {
       valid = false;
     }
 
-    const msg = document.getElementById('formMessage');
-    if (valid) {
-      msg.style.color = 'var(--success)';
-      msg.textContent = 'Form is valid! (Server connection comes on Day 7)';
-    } else {
-      msg.textContent = '';
-    }
+     const msg = document.getElementById('formMessage');
+
+if (!valid) {
+  msg.textContent = '';
+  return;
+}
+
+msg.style.color = 'var(--text)';
+msg.textContent = 'Registering...';
+
+try {
+  const response = await fetch('http://localhost:5000/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, password })
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    msg.style.color = 'var(--success)';
+    msg.textContent = data.message + ' Redirecting to login...';
+    setTimeout(() => {
+      window.location.href = 'login.html';
+    }, 1500);
+  } else {
+    msg.style.color = 'var(--error)';
+    msg.textContent = data.message;
+  }
+
+} catch (error) {
+  msg.style.color = 'var(--error)';
+  msg.textContent = 'Could not connect to server. Is it running?';
+}
   });
 }
