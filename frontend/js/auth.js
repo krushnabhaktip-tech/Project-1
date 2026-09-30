@@ -102,7 +102,7 @@ if (registerForm) {
 const loginForm = document.getElementById('loginForm');
 
 if (loginForm) {
-  loginForm.addEventListener('submit', function (e) {
+   loginForm.addEventListener('submit', async function (e)  {
     e.preventDefault();
 
     const email = document.getElementById('email').value.trim();
