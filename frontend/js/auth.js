@@ -121,12 +121,43 @@ if (loginForm) {
       valid = false;
     }
 
-    const msg = document.getElementById('formMessage');
-    if (valid) {
-      msg.style.color = 'var(--success)';
-      msg.textContent = 'Form is valid! (Server connection comes on Day 7)';
-    } else {
-      msg.textContent = '';
-    }
+     const msg = document.getElementById('formMessage');
+
+if (!valid) {
+  msg.textContent = '';
+  return;
+}
+
+msg.style.color = 'var(--text)';
+msg.textContent = 'Logging in...';
+
+try {
+  const response = await fetch('http://localhost:5000/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('userName', data.user.name);
+    localStorage.setItem('userRole', data.user.role);
+
+    msg.style.color = 'var(--success)';
+    msg.textContent = 'Login successful! Redirecting...';
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 1000);
+  } else {
+    msg.style.color = 'var(--error)';
+    msg.textContent = data.message;
+  }
+
+} catch (error) {
+  msg.style.color = 'var(--error)';
+  msg.textContent = 'Could not connect to server. Is it running?';
+}
   });
 }
