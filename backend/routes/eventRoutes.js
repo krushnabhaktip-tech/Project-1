@@ -1,0 +1,40 @@
+const express = require('express');
+const router = express.Router();
+const db = require('../config/db');
+const { verifyToken, verifyAdmin } = require('../middleware/authMiddleware');
+
+// CREATE EVENT (Admin only)
+router.post('/events', verifyToken, verifyAdmin, (req, res) => {
+  const { title, description, category, venue, event_date, price, total_seats, poster_url } = req.body;
+
+  if (!title || !event_date || !venue || !total_seats) {
+    return res.status(400).json({ message: 'Please fill all required fields.' });
+  }
+
+  const query = `INSERT INTO events (title, description, category, venue, event_date, price, total_seats, available_seats, poster_url, status, created_by) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+  const values = [
+    title,
+    description,
+    category,
+    venue,
+    event_date,
+    price,
+    total_seats,
+    total_seats,   // available_seats shuru me total_seats ke barabar hi hoga
+    poster_url,
+    'upcoming',     // status ki default value
+    req.user.user_id  // kisne event banaya (token se mila admin ka id)
+  ];
+
+  db.query(query, values, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server error. Could not create event.' });
+    }
+    res.status(201).json({ message: 'Event created successfully!', eventId: result.insertId });
+  });
+});
+
+module.exports = router;

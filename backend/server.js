@@ -3,11 +3,14 @@ const cors = require('cors');
 require('dotenv').config();
 const db = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
+const eventRoutes = require('./routes/eventRoutes');
+ 
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/api', authRoutes);
+app.use('/api', eventRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'NexusCon server is running' });
