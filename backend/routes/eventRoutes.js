@@ -73,11 +73,13 @@ router.put('/events/:id', verifyToken, verifyAdmin, (req, res) => {
   const eventId = req.params.id;
   const { title, description, category, venue, event_date, price, total_seats, poster_url, status } = req.body;
 
-  const query = `UPDATE events 
-                 SET title = ?, description = ?, category = ?, venue = ?, event_date = ?, price = ?, total_seats = ?, poster_url = ?, status = ?
+     const query = `UPDATE events 
+                 SET title = ?, description = ?, category = ?, venue = ?, event_date = ?, price = ?,
+                     available_seats = available_seats + (? - total_seats),
+                     total_seats = ?, poster_url = ?, status = ?
                  WHERE event_id = ?`;
 
-  const values = [title, description, category, venue, event_date, price, total_seats, poster_url, status, eventId];
+  const values = [title, description, category, venue, event_date, price, total_seats, total_seats, poster_url, status, eventId];
 
   db.query(query, values, (err, result) => {
     if (err) {
