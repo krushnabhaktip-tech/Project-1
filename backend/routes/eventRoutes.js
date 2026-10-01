@@ -36,5 +36,17 @@ router.post('/events', verifyToken, verifyAdmin, (req, res) => {
     res.status(201).json({ message: 'Event created successfully!', eventId: result.insertId });
   });
 });
+// GET ALL EVENTS (Public - koi bhi dekh sakta hai)
+router.get('/events', (req, res) => {
+  const query = `SELECT * FROM events ORDER BY event_date ASC`;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server error. Could not fetch events.' });
+    }
+    res.status(200).json(results);
+  });
+});
 
 module.exports = router;
