@@ -49,4 +49,29 @@ router.get('/events', (req, res) => {
   });
 });
 
+// UPDATE EVENT (Admin only)
+router.put('/events/:id', verifyToken, verifyAdmin, (req, res) => {
+  const eventId = req.params.id;
+  const { title, description, category, venue, event_date, price, total_seats, poster_url, status } = req.body;
+
+  const query = `UPDATE events 
+                 SET title = ?, description = ?, category = ?, venue = ?, event_date = ?, price = ?, total_seats = ?, poster_url = ?, status = ?
+                 WHERE event_id = ?`;
+
+  const values = [title, description, category, venue, event_date, price, total_seats, poster_url, status, eventId];
+
+  db.query(query, values, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server error. Could not update event.' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Event not found.' });
+    }
+
+    res.status(200).json({ message: 'Event updated successfully!' });
+  });
+});
+
 module.exports = router;
