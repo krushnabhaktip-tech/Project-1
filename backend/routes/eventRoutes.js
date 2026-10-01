@@ -92,5 +92,26 @@ router.put('/events/:id', verifyToken, verifyAdmin, (req, res) => {
     res.status(200).json({ message: 'Event updated successfully!' });
   });
 });
+// DELETE EVENT (Admin only)
+router.delete('/events/:id', verifyToken, verifyAdmin, (req, res) => {
+  const eventId = req.params.id;
 
+  const query = `DELETE FROM events WHERE event_id = ?`;
+
+  db.query(query, [eventId], (err, result) => {
+    if (err) {
+      console.log(err);
+      if (err.code === 'ER_ROW_IS_REFERENCED_2') {
+        return res.status(400).json({ message: 'Is event ki bookings hain, isliye delete nahi ho sakta.' });
+      }
+      return res.status(500).json({ message: 'Server error. Could not delete event.' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Event not found.' });
+    }
+
+    res.status(200).json({ message: 'Event deleted successfully!' });
+  });
+});
 module.exports = router;
