@@ -36,6 +36,7 @@ router.post('/events', verifyToken, verifyAdmin, (req, res) => {
     res.status(201).json({ message: 'Event created successfully!', eventId: result.insertId });
   });
 });
+
 // GET ALL EVENTS (Public - koi bhi dekh sakta hai)
 router.get('/events', (req, res) => {
   const query = `SELECT * FROM events ORDER BY event_date ASC`;
