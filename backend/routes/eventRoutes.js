@@ -36,7 +36,25 @@ router.post('/events', verifyToken, verifyAdmin, (req, res) => {
     res.status(201).json({ message: 'Event created successfully!', eventId: result.insertId });
   });
 });
+// GET SINGLE EVENT (Public - event details page ke liye)
+router.get('/events/:id', (req, res) => {
+  const eventId = req.params.id;
 
+  const query = `SELECT * FROM events WHERE event_id = ?`;
+
+  db.query(query, [eventId], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server error. Could not fetch event.' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Event not found.' });
+    }
+
+    res.status(200).json(results[0]);
+  });
+});
 // GET ALL EVENTS (Public - koi bhi dekh sakta hai)
 router.get('/events', (req, res) => {
   const query = `SELECT * FROM events ORDER BY event_date ASC`;
