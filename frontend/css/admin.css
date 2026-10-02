@@ -1,0 +1,156 @@
+/* ===== Admin page ki styling (sirf body.admin-page par lagti hai) ===== */
+body.admin-page {
+  --a-bg: #0f0d1a;
+  --a-panel: #1c1b33;
+  --a-card: #14122a;
+  --a-border: #2e2c4d;
+  --a-text: #f1f0ff;
+  --a-muted: #a09fc0;
+  --a-primary: #8b5cf6;
+  --a-primary-hover: #7c4ae8;
+  --a-danger: #f87171;
+  --a-success: #4ade80;
+
+  display: block;
+  height: auto;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  align-items: stretch;
+  justify-content: flex-start;
+  background: var(--a-bg);
+  color: var(--a-text);
+}
+
+/* Header */
+.admin-page .admin-header {
+  position: static;
+  width: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px 32px;
+  background: var(--a-panel);
+  border-bottom: 1px solid var(--a-border);
+}
+.admin-page .admin-header h1 { margin: 0; font-size: 1.5rem; }
+.admin-page .subtitle { margin: 4px 0 0; color: var(--a-muted); font-size: 0.9rem; }
+.admin-page .admin-user { display: flex; align-items: center; gap: 14px; }
+
+/* Main layout: left mein events, right mein form */
+.admin-page .admin-main {
+  width: auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 32px;
+  align-items: start;
+}
+
+.admin-page .panel {
+  background: var(--a-panel);
+  border: 1px solid var(--a-border);
+  border-radius: 14px;
+  padding: 20px;
+}
+.admin-page .panel h2 { margin: 0 0 16px; font-size: 1.15rem; }
+.admin-page #formSection { position: sticky; top: 16px; }
+
+/* Event cards */
+.admin-page .event-card {
+  background: var(--a-card);
+  border: 1px solid var(--a-border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.admin-page .event-card.editing {
+  border-color: var(--a-primary);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.25);
+}
+.admin-page .event-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+.admin-page .event-top h3 { margin: 0; font-size: 1.05rem; }
+.admin-page .event-info { margin: 6px 0 0; color: var(--a-muted); font-size: 0.9rem; }
+.admin-page .event-actions { margin-top: 12px; display: flex; gap: 8px; }
+.admin-page .badge {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.2);
+  color: #c4b5fd;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+.admin-page .empty { color: var(--a-muted); }
+
+/* Buttons */
+.admin-page .btn {
+  width: auto;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.admin-page .btn-primary { background: var(--a-primary); color: #fff; }
+.admin-page .btn-primary:hover { background: var(--a-primary-hover); }
+.admin-page .btn-edit { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; }
+.admin-page .btn-delete { background: rgba(248, 113, 113, 0.15); color: #fca5a5; }
+.admin-page .btn-outline {
+  background: transparent;
+  border: 1px solid var(--a-border);
+  color: var(--a-text);
+}
+.admin-page .btn-outline:hover { border-color: var(--a-primary); }
+
+/* Form */
+.admin-page .admin-form label {
+  display: block;
+  margin: 12px 0 6px;
+  font-size: 0.85rem;
+  color: var(--a-muted);
+}
+.admin-page .admin-form input,
+.admin-page .admin-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  background: var(--a-card);
+  border: 1px solid var(--a-border);
+  border-radius: 8px;
+  color: var(--a-text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color-scheme: dark;
+}
+.admin-page .admin-form input:focus,
+.admin-page .admin-form textarea:focus {
+  outline: none;
+  border-color: var(--a-primary);
+}
+.admin-page .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.admin-page .form-buttons { display: flex; gap: 10px; margin-top: 18px; }
+
+/* Message (success / error) */
+.admin-page .message { margin-top: 14px; font-size: 0.9rem; min-height: 1.2em; }
+.admin-page .message.success { color: var(--a-success); }
+.admin-page .message.error { color: var(--a-danger); }
+
+/* Chhoti screen (mobile) */
+@media (max-width: 900px) {
+  .admin-page .admin-main { grid-template-columns: 1fr; padding: 16px; }
+  .admin-page #formSection { position: static; }
+  .admin-page .admin-header { padding: 16px; }
+}
