@@ -7,47 +7,63 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <div class="auth-card">
-    <h1>Create Account</h1>
-    <p class="subtitle">Join NexusCon and book your seat</p>
+<body class="auth-page">
 
-    <form id="registerForm" novalidate>
-      <div class="form-group">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" placeholder="Your name">
-        <div class="error-msg" id="nameError"></div>
-      </div>
+  <nav class="navbar">
+    <a href="index.html" class="brand">NexusCon</a>
+    <div class="nav-links">
+      <a href="index.html">Events</a>
+      <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+      <span id="userGreeting"></span>
+      <a href="login.html" id="loginLink">Login</a>
+      <a href="register.html" id="registerLink">Register</a>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+  </nav>
 
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="you@example.com">
-        <div class="error-msg" id="emailError"></div>
-      </div>
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <h1>Create Account</h1>
+      <p class="subtitle">Join NexusCon and book your seat</p>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Min 8 chars, letters and numbers">
-        <div class="error-msg" id="passwordError"></div>
-      </div>
+      <form id="registerForm" novalidate>
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Your name">
+          <div class="error-msg" id="nameError"></div>
+        </div>
 
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" placeholder="Repeat password">
-        <div class="error-msg" id="confirmError"></div>
-      </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@example.com">
+          <div class="error-msg" id="emailError"></div>
+        </div>
 
-      <label class="show-pass">
-        <input type="checkbox" id="showPassword"> Show password
-      </label>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Min 8 chars, letters and numbers">
+          <div class="error-msg" id="passwordError"></div>
+        </div>
 
-      <button type="submit" class="btn">Register</button>
-      <div class="form-message" id="formMessage"></div>
-    </form>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" placeholder="Repeat password">
+          <div class="error-msg" id="confirmError"></div>
+        </div>
 
-    <p class="switch-link">Already have an account? <a href="login.html">Login</a></p>
+        <label class="show-pass">
+          <input type="checkbox" id="showPassword"> Show password
+        </label>
+
+        <button type="submit" class="btn">Register</button>
+        <div class="form-message" id="formMessage"></div>
+      </form>
+
+      <p class="switch-link">Already have an account? <a href="login.html">Login</a></p>
+    </div>
   </div>
 
+  <script src="js/navbar.js"></script>
   <script src="js/auth.js"></script>
 </body>
 </html>
