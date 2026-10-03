@@ -12,7 +12,7 @@
   <header class="admin-header">
     <div>
       <h1>NexusCon Admin</h1>
-      <p class="subtitle">Events manage karo</p>
+      <p class="subtitle">Manage your events</p>
     </div>
     <div class="admin-user">
       <span>Welcome, <strong id="adminName"></strong></span>
@@ -24,26 +24,26 @@
 
     <section id="eventsSection" class="panel">
       <h2>All Events (<span id="eventCount">0</span>)</h2>
-      <div id="eventsList">Events load ho rahe hain...</div>
+      <div id="eventsList">Loading events...</div>
     </section>
 
     <section id="formSection" class="panel">
-      <h2 id="formTitle">Naya Event Banao</h2>
+      <h2 id="formTitle">Create New Event</h2>
 
       <form id="eventForm" class="admin-form">
         <label for="title">Title *</label>
-        <input type="text" id="title" placeholder="Jaise: NexusCon Valorant Championship" required>
+        <input type="text" id="title" placeholder="e.g. NexusCon Valorant Championship" required>
 
         <label for="description">Description</label>
-        <textarea id="description" rows="3" placeholder="Event ke baare mein likho"></textarea>
+        <textarea id="description" rows="3" placeholder="Write a short description of the event"></textarea>
 
         <label for="category">Category</label>
-        <input type="text" id="category" placeholder="Jaise: Valorant">
+        <input type="text" id="category" placeholder="e.g. Valorant">
 
         <label for="venue">Venue *</label>
-        <input type="text" id="venue" placeholder="Jaise: NexusCon Main Arena" required>
+        <input type="text" id="venue" placeholder="e.g. NexusCon Main Arena" required>
 
-        <label for="event_date">Date aur Time *</label>
+        <label for="event_date">Date and Time *</label>
         <input type="datetime-local" id="event_date" required>
 
         <div class="form-row">
@@ -64,7 +64,7 @@
         <input type="text" id="status" value="upcoming" placeholder="upcoming">
 
         <div class="form-buttons">
-          <button type="submit" id="saveBtn" class="btn btn-primary">Event Banao</button>
+          <button type="submit" id="saveBtn" class="btn btn-primary">Create Event</button>
           <button type="button" id="cancelBtn" class="btn btn-outline">Cancel</button>
         </div>
       </form>

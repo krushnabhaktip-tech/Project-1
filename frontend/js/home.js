@@ -1,7 +1,7 @@
 const API = 'http://localhost:5000/api/events';
 let allEvents = [];
 
-// ===== Navbar: login status ke hisaab se links =====
+// ===== Navbar: show links based on login status =====
 const token = localStorage.getItem('token');
 const userName = localStorage.getItem('userName');
 const userRole = localStorage.getItem('userRole');
@@ -39,12 +39,12 @@ function showDate(dateString) {
   });
 }
 
-// ===== Events dikhana =====
+// ===== Show events =====
 function renderEvents(list) {
   const grid = document.getElementById('eventsGrid');
 
   if (list.length === 0) {
-    grid.innerHTML = '<p class="empty">Koi event nahi mila.</p>';
+    grid.innerHTML = '<p class="empty">No events found.</p>';
     return;
   }
 
@@ -65,16 +65,16 @@ function renderEvents(list) {
           '<p class="info">Date: ' + showDate(item.event_date) + '</p>' +
           '<p class="info">Price: Rs ' + escapeHtml(item.price) + '</p>' +
           '<p class="seats ' + (soldOut ? 'soldout' : '') + '">' +
-            (soldOut ? 'Sold Out' : item.available_seats + ' seats bachi hain') +
+            (soldOut ? 'Sold Out' : item.available_seats + ' seats left') +
           '</p>' +
-          '<a class="details-btn" href="event-details.html?id=' + item.event_id + '">Details dekho</a>' +
+          '<a class="details-btn" href="event-details.html?id=' + item.event_id + '">View details</a>' +
         '</div>' +
       '</div>';
   });
   grid.innerHTML = html;
 }
 
-// ===== Search aur category filter =====
+// ===== Search and category filter =====
 function applyFilters() {
   const text = document.getElementById('searchBox').value.toLowerCase();
   const category = document.getElementById('categoryFilter').value;
@@ -111,7 +111,7 @@ async function loadEvents() {
     renderEvents(allEvents);
   } catch (error) {
     document.getElementById('eventsGrid').innerHTML =
-      '<p class="empty">Server se connect nahi ho paya. Backend chalu hai? (npm run dev)</p>';
+      '<p class="empty">Could not connect to the server. Is the backend running? (npm run dev)</p>';
   }
 }
 
