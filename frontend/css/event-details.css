@@ -1,84 +1,98 @@
-.details-wrapper {
-  max-width: 1000px;
-  margin: 30px auto;
-  padding: 0 20px;
+/* ===== Event details page styling (works together with home.css) ===== */
+.home-page .details-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 24px 56px;
 }
 
-.back-link {
+.home-page .back-link {
   display: inline-block;
   margin-bottom: 18px;
-  color: var(--accent);
+  color: var(--h-muted);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
-.back-link:hover { text-decoration: underline; }
+.home-page .back-link:hover { color: var(--h-text); }
 
-.event-detail {
-  display: flex;
-  gap: 28px;
-  background: var(--card);
-  border: 1px solid #2e2b4a;
+/* Main card */
+.home-page .details-card {
+  overflow: hidden;
+  background: var(--h-panel);
+  border: 1px solid var(--h-border);
+  border-top: 3px solid var(--h-primary);
   border-radius: 16px;
-  padding: 24px;
 }
-
-.detail-poster {
-  width: 340px;
-  max-width: 100%;
-  border-radius: 12px;
+.home-page .details-poster {
+  display: block;
+  width: 100%;
+  max-height: 340px;
   object-fit: cover;
-  align-self: flex-start;
 }
+.home-page .details-body { padding: 28px; }
 
-.detail-info { flex: 1; }
-.detail-info h1 { margin: 12px 0; font-size: 1.8rem; }
-
-.badge {
-  display: inline-block;
-  background: var(--primary);
-  color: #fff;
-  padding: 4px 14px;
+/* Tags (category and status) */
+.home-page .details-tags { display: flex; gap: 10px; margin-bottom: 14px; }
+.home-page .details-tags .category { margin-bottom: 0; }
+.home-page .status-tag {
+  padding: 3px 12px;
   border-radius: 999px;
-  font-size: 0.8rem;
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
 }
 
-.description {
-  color: #c9c5ee;
-  line-height: 1.6;
-  margin-bottom: 18px;
-}
+.home-page .details-body h1 { margin: 0 0 18px; font-size: 1.9rem; }
+.home-page .details-body h3 { margin: 26px 0 8px; font-size: 1.05rem; }
 
-.meta {
+/* Info list */
+.home-page .details-list {
   list-style: none;
-  margin-bottom: 22px;
+  margin: 0;
+  padding: 16px 18px;
+  background: var(--h-card);
+  border: 1px solid var(--h-border);
+  border-radius: 12px;
 }
-.meta li {
-  padding: 8px 0;
-  border-bottom: 1px solid #2e2b4a;
+.home-page .details-list li {
+  padding: 6px 0;
+  color: var(--h-muted);
+  font-size: 0.95rem;
+}
+.home-page .details-list strong { color: var(--h-text); margin-right: 6px; }
+
+.home-page .description {
+  margin: 0;
+  color: var(--h-muted);
+  line-height: 1.7;
+  white-space: pre-line;
 }
 
-.sold-out-text { color: var(--error); font-weight: 600; }
-
-.book-btn {
-  background: var(--primary);
-  color: #fff;
+/* Book button */
+.home-page .book-btn {
+  margin-top: 26px;
+  padding: 13px 34px;
+  background: var(--h-primary);
   border: none;
-  padding: 12px 32px;
-  border-radius: 8px;
+  border-radius: 10px;
+  color: #fff;
   font-family: inherit;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
 }
-.book-btn:hover:not(:disabled) { background: #7c3aed; }
-.book-btn:disabled { background: #4b3f66; cursor: not-allowed; }
-
-.state-msg {
-  text-align: center;
-  padding: 60px 0;
-  color: #a9a5d0;
+.home-page .book-btn:hover:not(:disabled) { background: var(--h-primary-hover); }
+.home-page .book-btn:disabled {
+  background: var(--h-border);
+  color: var(--h-muted);
+  cursor: not-allowed;
 }
+.home-page .book-message { margin: 12px 0 0; color: #c4b5fd; font-size: 0.9rem; }
 
-@media (max-width: 720px) {
-  .event-detail { flex-direction: column; }
-  .detail-poster { width: 100%; }
+/* Small screens (mobile) */
+@media (max-width: 600px) {
+  .home-page .details-main { padding: 18px 14px 40px; }
+  .home-page .details-body { padding: 20px; }
+  .home-page .details-body h1 { font-size: 1.5rem; }
 }
