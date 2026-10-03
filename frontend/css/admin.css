@@ -179,3 +179,9 @@ body.admin-page {
   outline: none;
   border-color: var(--a-primary);
 }
+
+/* Link styled like a button (Back to Home) */
+.admin-page a.btn {
+  display: inline-block;
+  text-decoration: none;
+}
