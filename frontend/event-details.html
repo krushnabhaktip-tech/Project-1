@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details - NexusCon</title>
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/event-details.css">
+</head>
+<body class="home-page">
+
+  <nav class="navbar">
+    <a href="index.html" class="brand">NexusCon</a>
+    <div class="nav-links">
+      <a href="index.html">Events</a>
+      <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+      <span id="userGreeting"></span>
+      <a href="login.html" id="loginLink">Login</a>
+      <a href="register.html" id="registerLink">Register</a>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+  </nav>
+
+  <main class="details-wrapper">
+    <a href="index.html" class="back-link">&larr; Back to all events</a>
+    <div id="eventContainer">
+      <p class="state-msg">Loading event...</p>
+    </div>
+  </main>
+
+  <script src="js/event-details.js"></script>
+</body>
+</html>

@@ -110,3 +110,107 @@ async function loadEvents() {
   try {
     const response = await fetch(API);
     allEvents = await response.json();
+    renderEvents();
+  } catch (error) {
+    document.getElementById('eventsList').innerHTML =
+      '<p class="empty">Could not connect to the server. Is the backend running? (npm run dev)</p>';
+  }
+}
+
+// ===== 5. Create and Update (same form) =====
+document.getElementById('eventForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const data = {
+    title: document.getElementById('title').value,
+    description: document.getElementById('description').value,
+    category: document.getElementById('category').value,
+    venue: document.getElementById('venue').value,
+    event_date: document.getElementById('event_date').value.replace('T', ' '),
+    price: document.getElementById('price').value || 0,
+    total_seats: document.getElementById('total_seats').value,
+    poster_url: document.getElementById('poster_url').value,
+    status: document.getElementById('status').value
+  };
+
+  const url = editingId ? API + '/' + editingId : API;
+  const method = editingId ? 'PUT' : 'POST';
+
+  try {
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (checkAuthError(response)) return;
+
+    const result = await response.json();
+    showMessage(result.message, !response.ok);
+
+    if (response.ok) {
+      resetForm();
+      loadEvents();
+    }
+  } catch (error) {
+    showMessage('Could not connect to the server.', true);
+  }
+});
+
+// ===== 6. Edit =====
+function editEvent(id) {
+  const item = allEvents.find(function (ev) { return ev.event_id === id; });
+  if (!item) return;
+
+  document.getElementById('title').value = item.title;
+  document.getElementById('description').value = item.description || '';
+  document.getElementById('category').value = item.category;   // selects the matching dropdown option
+  document.getElementById('venue').value = item.venue;
+  document.getElementById('event_date').value = toInputDate(item.event_date);
+  document.getElementById('price').value = item.price;
+  document.getElementById('total_seats').value = item.total_seats;
+  document.getElementById('poster_url').value = item.poster_url || '';
+  document.getElementById('status').value = item.status;      // selects the matching dropdown option
+
+  editingId = id;
+  document.getElementById('formTitle').textContent = 'Edit Event (ID: ' + id + ')';
+  document.getElementById('saveBtn').textContent = 'Save Changes';
+  document.getElementById('message').textContent = '';
+  renderEvents();
+  document.getElementById('formSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ===== 7. Delete =====
+async function deleteEvent(id) {
+  if (!confirm('Are you sure you want to delete this event? This cannot be undone.')) return;
+
+  try {
+    const response = await fetch(API + '/' + id, {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+
+    if (checkAuthError(response)) return;
+
+    const result = await response.json();
+    showMessage(result.message, !response.ok);
+
+    if (response.ok) {
+      if (editingId === id) resetForm();
+      loadEvents();
+    }
+  } catch (error) {
+    showMessage('Could not connect to the server.', true);
+  }
+}
+
+// ===== 8. Cancel button and page start =====
+document.getElementById('cancelBtn').addEventListener('click', function () {
+  resetForm();
+  document.getElementById('message').textContent = '';
+});
+
+loadEvents();

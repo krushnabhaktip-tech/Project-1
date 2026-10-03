@@ -37,8 +37,13 @@
         <label for="description">Description</label>
         <textarea id="description" rows="3" placeholder="Write a short description of the event"></textarea>
 
-        <label for="category">Category</label>
-        <input type="text" id="category" placeholder="e.g. Valorant">
+        <label for="category">Category *</label>
+        <select id="category" required>
+          <option value="" disabled selected>Select a category</option>
+          <option value="Anime Con">Anime Con</option>
+          <option value="Valorant">Valorant</option>
+          <option value="Free Fire">Free Fire</option>
+        </select>
 
         <label for="venue">Venue *</label>
         <input type="text" id="venue" placeholder="e.g. NexusCon Main Arena" required>
@@ -61,7 +66,11 @@
         <input type="text" id="poster_url" placeholder="https://...">
 
         <label for="status">Status</label>
-        <input type="text" id="status" value="upcoming" placeholder="upcoming">
+        <select id="status">
+          <option value="upcoming">upcoming</option>
+          <option value="live">live</option>
+          <option value="closed">closed</option>
+        </select>
 
         <div class="form-buttons">
           <button type="submit" id="saveBtn" class="btn btn-primary">Create Event</button>
