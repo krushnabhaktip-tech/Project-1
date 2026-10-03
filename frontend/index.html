@@ -1,11 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexusCon - Anime & Esports Events</title>
+  <link rel="stylesheet" href="css/home.css">
 </head>
-<body>
-    
+<body class="home-page">
+
+  <nav class="navbar">
+    <a href="index.html" class="brand">NexusCon</a>
+    <div class="nav-links">
+      <a href="index.html">Events</a>
+      <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+      <span id="userGreeting"></span>
+      <a href="login.html" id="loginLink">Login</a>
+      <a href="register.html" id="registerLink">Register</a>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Anime Conventions &amp; Esports Tournaments</h1>
+    <p>Apna favourite event chuno aur seat book karo.</p>
+  </section>
+
+  <section class="filters">
+    <input type="text" id="searchBox" placeholder="Event ka naam ya venue search karo...">
+    <select id="categoryFilter">
+      <option value="">Saari categories</option>
+    </select>
+  </section>
+
+  <main>
+    <div id="eventsGrid" class="events-grid">Events load ho rahe hain...</div>
+  </main>
+
+  <script src="js/home.js"></script>
 </body>
 </html>
