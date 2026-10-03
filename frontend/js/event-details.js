@@ -1,5 +1,4 @@
 const API = 'http://localhost:5000/api/events';
-const container = document.getElementById('eventContainer');
 
 // ===== Navbar: show links based on login status =====
 const token = localStorage.getItem('token');
@@ -39,77 +38,85 @@ function showDate(dateString) {
   });
 }
 
-function showMessage(text) {
-  container.innerHTML = '<p class="state-msg">' + escapeHtml(text) + '</p>';
-}
-
 // ===== Show one event =====
-function renderEvent(ev) {
-  const soldOut = ev.available_seats <= 0;
-  const closed = ev.status === 'closed';
-  const canBook = !soldOut && !closed;
+function renderEvent(item) {
+  document.title = item.title + ' - NexusCon';
+
+  const soldOut = item.available_seats <= 0;
+  const isOpen = item.status === 'upcoming';
 
   let buttonText = 'Book Now';
-  if (soldOut) buttonText = 'Sold Out';
-  else if (closed) buttonText = 'Booking Closed';
+  if (soldOut) {
+    buttonText = 'Sold Out';
+  } else if (!isOpen) {
+    buttonText = 'Booking Closed';
+  }
 
-  const poster = ev.poster_url
-    ? '<img class="detail-poster" src="' + escapeHtml(ev.poster_url) + '" alt="" onerror="this.style.display=\'none\'">'
+  const poster = item.poster_url
+    ? '<img class="details-poster" src="' + escapeHtml(item.poster_url) + '" alt="" onerror="this.style.display=\'none\'">'
     : '';
 
-  container.innerHTML =
-    '<article class="event-detail">' +
+  document.getElementById('eventDetails').innerHTML =
+    '<div class="details-card">' +
       poster +
-      '<div class="detail-info">' +
-        '<span class="badge">' + escapeHtml(ev.category || 'Event') + '</span>' +
-        '<h1>' + escapeHtml(ev.title) + '</h1>' +
-        '<p class="description">' + escapeHtml(ev.description || 'No description available.') + '</p>' +
-        '<ul class="meta">' +
-          '<li><strong>Venue:</strong> ' + escapeHtml(ev.venue) + '</li>' +
-          '<li><strong>Date &amp; Time:</strong> ' + escapeHtml(showDate(ev.event_date)) + '</li>' +
-          '<li><strong>Price:</strong> Rs ' + escapeHtml(ev.price) + '</li>' +
+      '<div class="details-body">' +
+        '<div class="details-tags">' +
+          '<span class="category">' + escapeHtml(item.category || 'Event') + '</span>' +
+          '<span class="status-tag">' + escapeHtml(item.status) + '</span>' +
+        '</div>' +
+        '<h1>' + escapeHtml(item.title) + '</h1>' +
+        '<ul class="details-list">' +
+          '<li><strong>Date:</strong> ' + showDate(item.event_date) + '</li>' +
+          '<li><strong>Venue:</strong> ' + escapeHtml(item.venue) + '</li>' +
+          '<li><strong>Price:</strong> Rs ' + escapeHtml(item.price) + '</li>' +
           '<li><strong>Seats:</strong> ' +
-            (soldOut ? '<span class="sold-out-text">Sold Out</span>'
-                     : escapeHtml(ev.available_seats) + ' of ' + escapeHtml(ev.total_seats) + ' left') +
+            (soldOut ? 'Sold Out' : item.available_seats + ' of ' + item.total_seats + ' seats left') +
           '</li>' +
         '</ul>' +
-        '<button id="bookBtn" class="book-btn"' + (canBook ? '' : ' disabled') + '>' + buttonText + '</button>' +
+        '<h3>About this event</h3>' +
+        '<p class="description">' + escapeHtml(item.description || 'No description available.') + '</p>' +
+        '<button id="bookBtn" class="book-btn"' + (soldOut || !isOpen ? ' disabled' : '') + '>' + buttonText + '</button>' +
+        '<p id="bookMessage" class="book-message"></p>' +
       '</div>' +
-    '</article>';
+    '</div>';
 
-  if (canBook) {
-    document.getElementById('bookBtn').addEventListener('click', function () {
-      alert('Booking will be available soon.'); // real booking comes after Day 11
-    });
-  }
+  document.getElementById('bookBtn').addEventListener('click', function () {
+    if (!token) {
+      window.location.href = 'login.html';
+      return;
+    }
+    document.getElementById('bookMessage').textContent = 'Ticket booking is coming soon.';
+  });
 }
 
-// ===== Load the event from the server =====
+// ===== Load the event whose id is in the URL (?id=1) =====
 async function loadEvent() {
-  const id = new URLSearchParams(window.location.search).get('id');
+  const box = document.getElementById('eventDetails');
+  const eventId = new URLSearchParams(window.location.search).get('id');
 
-  if (!id) {
-    showMessage('Event not found.');
+  if (!eventId) {
+    box.innerHTML = '<p class="empty">No event selected.</p>';
     return;
   }
 
   try {
-    const response = await fetch(API + '/' + encodeURIComponent(id));
+    const response = await fetch(API + '/' + encodeURIComponent(eventId));
 
     if (response.status === 404) {
-      showMessage('Event not found.');
-      return;
-    }
-    if (!response.ok) {
-      showMessage('Something went wrong. Please try again.');
+      box.innerHTML = '<p class="empty">Event not found.</p>';
       return;
     }
 
-    const ev = await response.json();
-    document.title = ev.title + ' - NexusCon';
-    renderEvent(ev);
+    if (!response.ok) {
+      box.innerHTML = '<p class="empty">Something went wrong. Please try again.</p>';
+      return;
+    }
+
+    const item = await response.json();
+    renderEvent(item);
   } catch (error) {
-    showMessage('Could not connect to the server. Is the backend running? (npm run dev)');
+    box.innerHTML =
+      '<p class="empty">Could not connect to the server. Is the backend running? (npm run dev)</p>';
   }
 }
 
