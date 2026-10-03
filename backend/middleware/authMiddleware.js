@@ -7,7 +7,7 @@ const verifyToken = (req, res, next) => {
     return res.status(401).json({ message: 'No token provided. Access denied.' });
   }
 
-  const token = authHeader.split(' ')[1]; // "Bearer <token>" me se sirf token nikalna
+  const token = authHeader.split(' ')[1]; // extract only the token from "Bearer <token>"
 
   if (!token) {
     return res.status(401).json({ message: 'No token provided. Access denied.' });
@@ -15,8 +15,8 @@ const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // user_id aur role ab aage available hoga
-    next(); // sab sahi hai, aage jaane do
+    req.user = decoded; // user_id and role are now available to the next handlers
+    next(); // token is valid, continue
   } catch (err) {
     return res.status(403).json({ message: 'Invalid or expired token.' });
   }
