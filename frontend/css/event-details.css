@@ -1,0 +1,84 @@
+.details-wrapper {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.back-link:hover { text-decoration: underline; }
+
+.event-detail {
+  display: flex;
+  gap: 28px;
+  background: var(--card);
+  border: 1px solid #2e2b4a;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.detail-poster {
+  width: 340px;
+  max-width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  align-self: flex-start;
+}
+
+.detail-info { flex: 1; }
+.detail-info h1 { margin: 12px 0; font-size: 1.8rem; }
+
+.badge {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+.description {
+  color: #c9c5ee;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.meta {
+  list-style: none;
+  margin-bottom: 22px;
+}
+.meta li {
+  padding: 8px 0;
+  border-bottom: 1px solid #2e2b4a;
+}
+
+.sold-out-text { color: var(--error); font-weight: 600; }
+
+.book-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.book-btn:hover:not(:disabled) { background: #7c3aed; }
+.book-btn:disabled { background: #4b3f66; cursor: not-allowed; }
+
+.state-msg {
+  text-align: center;
+  padding: 60px 0;
+  color: #a9a5d0;
+}
+
+@media (max-width: 720px) {
+  .event-detail { flex-direction: column; }
+  .detail-poster { width: 100%; }
+}
