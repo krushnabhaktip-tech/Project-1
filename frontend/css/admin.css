@@ -156,3 +156,8 @@ body.admin-page {
   .admin-page #formSection { position: static; }
   .admin-page .admin-header { padding: 16px; }
 }
+/* "Back to Home" link styled like a button */
+.admin-page .back-home {
+  display: inline-block;
+  text-decoration: none;
+}
