@@ -178,3 +178,16 @@ body.auth-page {
   justify-content: center;
   padding: 20px;
 }
+
+/* Back to home link on login and register pages */
+.back-home {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: #a09fc0;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.back-home:hover {
+  color: var(--text);
+}
