@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../config/db');
 const { verifyToken, verifyAdmin } = require('../middleware/authMiddleware');
 
-// CREATE EVENT (Admin only)
+// CREATE EVENT (admin only)
 router.post('/events', verifyToken, verifyAdmin, (req, res) => {
   const { title, description, category, venue, event_date, price, total_seats, poster_url } = req.body;
 
@@ -11,7 +11,7 @@ router.post('/events', verifyToken, verifyAdmin, (req, res) => {
     return res.status(400).json({ message: 'Please fill all required fields.' });
   }
 
-  const query = `INSERT INTO events (title, description, category, venue, event_date, price, total_seats, available_seats, poster_url, status, created_by) 
+  const query = `INSERT INTO events (title, description, category, venue, event_date, price, total_seats, available_seats, poster_url, status, created_by)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
   const values = [
@@ -22,10 +22,10 @@ router.post('/events', verifyToken, verifyAdmin, (req, res) => {
     event_date,
     price,
     total_seats,
-    total_seats,   // available_seats shuru me total_seats ke barabar hi hoga
+    total_seats,      // available seats start equal to total seats
     poster_url,
-    'upcoming',     // status ki default value
-    req.user.user_id  // kisne event banaya (token se mila admin ka id)
+    'upcoming',       // default status
+    req.user.user_id  // id of the admin who created the event (from the token)
   ];
 
   db.query(query, values, (err, result) => {
@@ -36,7 +36,21 @@ router.post('/events', verifyToken, verifyAdmin, (req, res) => {
     res.status(201).json({ message: 'Event created successfully!', eventId: result.insertId });
   });
 });
-// GET SINGLE EVENT (Public - event details page ke liye)
+
+// GET ALL EVENTS (public)
+router.get('/events', (req, res) => {
+  const query = `SELECT * FROM events ORDER BY event_date ASC`;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server error. Could not fetch events.' });
+    }
+    res.status(200).json(results);
+  });
+});
+
+// GET SINGLE EVENT (public)
 router.get('/events/:id', (req, res) => {
   const eventId = req.params.id;
 
@@ -55,25 +69,15 @@ router.get('/events/:id', (req, res) => {
     res.status(200).json(results[0]);
   });
 });
-// GET ALL EVENTS (Public - koi bhi dekh sakta hai)
-router.get('/events', (req, res) => {
-  const query = `SELECT * FROM events ORDER BY event_date ASC`;
 
-  db.query(query, (err, results) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).json({ message: 'Server error. Could not fetch events.' });
-    }
-    res.status(200).json(results);
-  });
-});
-
-// UPDATE EVENT (Admin only)
+// UPDATE EVENT (admin only)
 router.put('/events/:id', verifyToken, verifyAdmin, (req, res) => {
   const eventId = req.params.id;
   const { title, description, category, venue, event_date, price, total_seats, poster_url, status } = req.body;
 
-     const query = `UPDATE events 
+  // available_seats changes by the same amount as total_seats
+  // (it must be set before total_seats, because SET runs from left to right)
+  const query = `UPDATE events
                  SET title = ?, description = ?, category = ?, venue = ?, event_date = ?, price = ?,
                      available_seats = available_seats + (? - total_seats),
                      total_seats = ?, poster_url = ?, status = ?
@@ -94,7 +98,8 @@ router.put('/events/:id', verifyToken, verifyAdmin, (req, res) => {
     res.status(200).json({ message: 'Event updated successfully!' });
   });
 });
-// DELETE EVENT (Admin only)
+
+// DELETE EVENT (admin only)
 router.delete('/events/:id', verifyToken, verifyAdmin, (req, res) => {
   const eventId = req.params.id;
 
@@ -104,7 +109,7 @@ router.delete('/events/:id', verifyToken, verifyAdmin, (req, res) => {
     if (err) {
       console.log(err);
       if (err.code === 'ER_ROW_IS_REFERENCED_2') {
-        return res.status(400).json({ message: 'Is event ki bookings hain, isliye delete nahi ho sakta.' });
+        return res.status(400).json({ message: 'This event has bookings, so it cannot be deleted.' });
       }
       return res.status(500).json({ message: 'Server error. Could not delete event.' });
     }
@@ -116,4 +121,5 @@ router.delete('/events/:id', verifyToken, verifyAdmin, (req, res) => {
     res.status(200).json({ message: 'Event deleted successfully!' });
   });
 });
+
 module.exports = router;
