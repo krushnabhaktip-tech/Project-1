@@ -163,17 +163,16 @@ document.getElementById('eventForm').addEventListener('submit', async function (
 // ===== 6. Edit =====
 function editEvent(id) {
   const item = allEvents.find(function (ev) { return ev.event_id === id; });
-  if (!item) return;
 
   document.getElementById('title').value = item.title;
   document.getElementById('description').value = item.description || '';
-  document.getElementById('category').value = item.category;   // selects the matching dropdown option
+  document.getElementById('category').value = item.category || '';
   document.getElementById('venue').value = item.venue;
   document.getElementById('event_date').value = toInputDate(item.event_date);
   document.getElementById('price').value = item.price;
   document.getElementById('total_seats').value = item.total_seats;
   document.getElementById('poster_url').value = item.poster_url || '';
-  document.getElementById('status').value = item.status;      // selects the matching dropdown option
+  document.getElementById('status').value = item.status;
 
   editingId = id;
   document.getElementById('formTitle').textContent = 'Edit Event (ID: ' + id + ')';
