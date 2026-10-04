@@ -89,5 +89,22 @@ router.post('/bookings', verifyToken, async (req, res) => {
     if (connection) connection.release();
   }
 });
+// GET MY BOOKINGS (logged-in users see only their own bookings)
+router.get('/bookings/my', verifyToken, (req, res) => {
+  const query = `SELECT b.booking_id, b.event_id, b.ticket_type, b.quantity, b.total_amount,
+                        b.status, b.booked_at,
+                        e.title, e.venue, e.event_date, e.poster_url
+                 FROM bookings b
+                 JOIN events e ON b.event_id = e.event_id
+                 WHERE b.user_id = ?
+                 ORDER BY b.booked_at DESC`;
 
+  db.query(query, [req.user.user_id], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server error. Could not fetch bookings.' });
+    }
+    res.status(200).json(results);
+  });
+});
 module.exports = router;
