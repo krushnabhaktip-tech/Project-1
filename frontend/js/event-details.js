@@ -85,7 +85,7 @@ function renderEvent(item) {
       window.location.href = 'login.html';
       return;
     }
-    document.getElementById('bookMessage').textContent = 'Ticket booking is coming soon.';
+    window.location.href = 'booking.html?id=' + item.event_id;
   });
 }
 
