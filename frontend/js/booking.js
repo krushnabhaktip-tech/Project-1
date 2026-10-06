@@ -145,6 +145,20 @@ async function loadEvent() {
       '<p class="empty">Could not connect to the server. Is the backend running? (npm run dev)</p>';
   }
 }
+// ===== Success screen =====
+function showSuccess(booking) {
+  document.title = 'Booking Confirmed - NexusCon';
+  document.getElementById('bookingContent').innerHTML =
+    '<div class="checkout-box">' +
+      '<h2>Booking Confirmed!</h2>' +
+      '<p class="checkout-info">Booking ID: <strong>' + escapeHtml(booking.booking_id) + '</strong></p>' +
+      '<p class="checkout-info">Event: ' + escapeHtml(currentEvent.title) + '</p>' +
+      '<p class="checkout-info">Ticket type: ' + escapeHtml(booking.ticket_type) + '</p>' +
+      '<p class="checkout-info">Quantity: ' + booking.quantity + '</p>' +
+      '<p class="checkout-info">Total paid: Rs ' + Number(booking.total_amount).toFixed(2) + '</p>' +
+      '<a class="back-link" href="index.html">Browse more events</a>' +
+    '</div>';
+}
 // ===== Confirm booking (calls POST /api/bookings) =====
 const BOOKING_API = 'http://localhost:5000/api/bookings';
 
