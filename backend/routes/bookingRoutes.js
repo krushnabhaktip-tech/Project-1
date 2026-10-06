@@ -107,4 +107,53 @@ router.get('/bookings/my', verifyToken, (req, res) => {
     res.status(200).json(results);
   });
 });
+// CANCEL BOOKING (users can cancel only their own confirmed bookings)
+router.put('/bookings/:id/cancel', verifyToken, async (req, res) => {
+  const bookingId = req.params.id;
+  let connection;
+
+  try {
+    connection = await db.promise().getConnection();
+    await connection.beginTransaction();
+
+    // Find the booking (it must belong to the logged-in user) and lock it
+    const [rows] = await connection.query(
+      'SELECT booking_id, event_id, quantity, status FROM bookings WHERE booking_id = ? AND user_id = ? FOR UPDATE',
+      [bookingId, req.user.user_id]
+    );
+
+    if (rows.length === 0) {
+      await connection.rollback();
+      return res.status(404).json({ message: 'Booking not found.' });
+    }
+
+    const booking = rows[0];
+
+    if (booking.status !== 'confirmed') {
+      await connection.rollback();
+      return res.status(400).json({ message: 'This booking is already cancelled.' });
+    }
+
+    await connection.query(
+      "UPDATE bookings SET status = 'cancelled' WHERE booking_id = ?",
+      [bookingId]
+    );
+
+    // Release the seats back to the event
+    await connection.query(
+      'UPDATE events SET available_seats = available_seats + ? WHERE event_id = ?',
+      [booking.quantity, booking.event_id]
+    );
+
+    await connection.commit();
+
+    res.status(200).json({ message: 'Booking cancelled. Seats released.' });
+  } catch (err) {
+    if (connection) await connection.rollback();
+    console.log(err);
+    res.status(500).json({ message: 'Server error. Could not cancel booking.' });
+  } finally {
+    if (connection) connection.release();
+  }
+});
 module.exports = router;
