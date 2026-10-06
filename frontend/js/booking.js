@@ -170,8 +170,7 @@ async function confirmBooking() {
   const maxQty = Math.min(MAX_TICKETS, currentEvent.available_seats);
 
   if (!Number.isInteger(qty) || qty < 1 || qty > maxQty) {
-    msg.style.color = '#ff6b6b';
-    msg.textContent = 'Please enter 1 to ' + maxQty + ' tickets.';
+     showSuccess(data.booking);
     return;
   }
 

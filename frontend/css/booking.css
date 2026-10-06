@@ -1,0 +1,80 @@
+/* ===== Checkout page ===== */
+#bookingContent {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+}
+
+.back-link {
+  display: inline-block;
+  margin: 24px 0 8px;
+  color: #a78bfa;
+  text-decoration: none;
+}
+.back-link:hover { text-decoration: underline; }
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.checkout-box {
+  background: #1e1b36;
+  border: 1px solid #2d2950;
+  border-top: 3px solid #8b5cf6;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.checkout-box h2 { margin: 0 0 12px; }
+.checkout-box h3 { margin: 0 0 16px; color: #e9e5ff; }
+
+.checkout-info { margin: 8px 0; color: #a8a3d1; }
+
+.checkout-box label {
+  display: block;
+  margin: 16px 0 6px;
+  color: #a8a3d1;
+}
+
+.checkout-box select,
+.checkout-box input {
+  width: 100%;
+  padding: 10px 12px;
+  background: #13102a;
+  color: #fff;
+  border: 1px solid #2d2950;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  padding: 14px 0;
+  border-top: 1px solid #2d2950;
+  font-size: 1.2rem;
+}
+
+.book-btn {
+  width: 100%;
+  padding: 12px;
+  background: #8b5cf6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.book-btn:hover { background: #7c3aed; }
+.book-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.book-message { margin-top: 12px; min-height: 1.2em; }
+
+@media (max-width: 700px) {
+  .checkout-layout { grid-template-columns: 1fr; }
+}
