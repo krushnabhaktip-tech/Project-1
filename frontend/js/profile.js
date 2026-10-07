@@ -91,7 +91,7 @@ async function loadBookings() {
       '<table class="bookings-table">' +
         '<thead><tr>' +
           '<th>Event</th><th>Event date</th><th>Ticket</th><th>Qty</th>' +
-          '<th>Total</th><th>Status</th><th>Booked on</th>' +
+          '<th>Total</th><th>Status</th><th>Booked on</th><th>Action</th>'+
         '</tr></thead>' +
         '<tbody>' + rows + '</tbody>' +
       '</table>';
