@@ -101,6 +101,35 @@ async function loadBookings() {
       '<p class="empty">Could not connect to the server. Is the backend running? (npm run dev)</p>';
   }
 }
+// ===== Cancel a booking =====
+document.getElementById('profileContent').addEventListener('click', async function (e) {
+  if (!e.target.classList.contains('cancel-btn')) return;
+
+  const bookingId = e.target.getAttribute('data-id');
+  if (!confirm('Are you sure you want to cancel this booking?')) return;
+
+  e.target.disabled = true;   // stops double clicks
+
+  try {
+    const response = await fetch('http://localhost:5000/api/bookings/' + encodeURIComponent(bookingId) + '/cancel', {
+      method: 'PUT',
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data = await response.json();
+
+    if (response.status === 401) {
+      alert('Session expired. Please log in again.');
+      window.location.href = 'login.html';
+      return;
+    }
+
+    alert(data.message);
+    loadBookings();   // reload the table so the new status shows
+  } catch (error) {
+    alert('Could not connect to the server.');
+    e.target.disabled = false;
+  }
+});
 
 if (token) {
   loadBookings();
