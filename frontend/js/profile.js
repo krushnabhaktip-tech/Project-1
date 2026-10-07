@@ -101,6 +101,66 @@ async function loadBookings() {
       '<p class="empty">Could not connect to the server. Is the backend running? (npm run dev)</p>';
   }
 }
+// ===== Profile box (view and edit name) =====
+const PROFILE_API = 'http://localhost:5000/api/profile';
+
+async function loadProfile() {
+  const box = document.getElementById('profileBox');
+
+  try {
+    const response = await fetch(PROFILE_API, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (!response.ok) {
+      box.innerHTML = '<p class="empty">Could not load profile.</p>';
+      return;
+    }
+    const user = await response.json();
+
+    box.innerHTML =
+      '<h2>My Profile</h2>' +
+      '<label for="profileName">Name</label>' +
+      '<input type="text" id="profileName" maxlength="100" value="' + escapeHtml(user.name) + '">' +
+      '<p class="checkout-info">Email: ' + escapeHtml(user.email) + '</p>' +
+      '<button id="saveProfileBtn" class="book-btn">Save Name</button>' +
+      '<p id="profileMessage" class="book-message"></p>';
+
+    document.getElementById('saveProfileBtn').addEventListener('click', saveProfile);
+  } catch (error) {
+    box.innerHTML = '<p class="empty">Could not connect to the server.</p>';
+  }
+}
+
+async function saveProfile() {
+  const msg = document.getElementById('profileMessage');
+  const name = document.getElementById('profileName').value.trim();
+
+  try {
+    const response = await fetch(PROFILE_API, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ name: name })
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      msg.style.color = '#ff6b6b';
+      msg.textContent = data.message;
+      return;
+    }
+
+    localStorage.setItem('userName', data.name);
+    document.getElementById('userGreeting').textContent = 'Hi, ' + data.name;
+    msg.style.color = '#4ade80';
+    msg.textContent = data.message;
+  } catch (error) {
+    msg.style.color = '#ff6b6b';
+    msg.textContent = 'Could not connect to the server.';
+  }
+}
 // ===== Cancel a booking =====
 document.getElementById('profileContent').addEventListener('click', async function (e) {
   if (!e.target.classList.contains('cancel-btn')) return;
@@ -131,6 +191,7 @@ document.getElementById('profileContent').addEventListener('click', async functi
   }
 });
 
-if (token) {
+ if (token) {
+  loadProfile();
   loadBookings();
 }
