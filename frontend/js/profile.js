@@ -71,6 +71,10 @@ async function loadBookings() {
 
     let rows = '';
     bookings.forEach(function (b) {
+      const action = b.status === 'confirmed'
+        ? '<button class="cancel-btn" data-id="' + escapeHtml(b.booking_id) + '">Cancel</button>'
+        : '-';
+
       rows +=
         '<tr>' +
           '<td>' + escapeHtml(b.title) + '<br><small>' + escapeHtml(b.venue) + '</small></td>' +
@@ -83,9 +87,6 @@ async function loadBookings() {
           '<td>' + action + '</td>' +
         '</tr>';
     });
-          const action = b.status === 'confirmed'
-        ? '<button class="cancel-btn" data-id="' + escapeHtml(b.booking_id) + '">Cancel</button>'
-        : '-';
 
     box.innerHTML =
       '<table class="bookings-table">' +
