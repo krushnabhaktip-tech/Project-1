@@ -82,6 +82,9 @@ async function loadBookings() {
           '<td>' + showDate(b.booked_at) + '</td>' +
         '</tr>';
     });
+          const action = b.status === 'confirmed'
+        ? '<button class="cancel-btn" data-id="' + escapeHtml(b.booking_id) + '">Cancel</button>'
+        : '-';
 
     box.innerHTML =
       '<table class="bookings-table">' +
