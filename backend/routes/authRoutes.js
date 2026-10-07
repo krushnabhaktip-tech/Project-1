@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
+const { verifyToken } = require('../middleware/authMiddleware');
 
 router.post('/register', async (req, res) => {
   try {
@@ -82,5 +83,41 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server error, please try again' });
   }
 });
+// GET MY PROFILE (logged-in users)
+router.get('/profile', verifyToken, async (req, res) => {
+  try {
+    const [rows] = await db.promise().query(
+      'SELECT name, email, created_at FROM users WHERE user_id = ?',
+      [req.user.user_id]
+    );
 
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+    res.status(200).json(rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error. Could not load profile.' });
+  }
+});
+
+// UPDATE MY NAME (logged-in users)
+router.put('/profile', verifyToken, async (req, res) => {
+  try {
+    const name = String(req.body.name || '').trim();
+
+    if (name.length < 2 || name.length > 100) {
+      return res.status(400).json({ message: 'Name must be 2 to 100 characters.' });
+    }
+
+    await db.promise().query(
+      'UPDATE users SET name = ? WHERE user_id = ?',
+      [name, req.user.user_id]
+    );
+    res.status(200).json({ message: 'Profile updated.', name: name });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error. Could not update profile.' });
+  }
+});
 module.exports = router;
