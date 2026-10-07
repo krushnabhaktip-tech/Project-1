@@ -82,7 +82,7 @@ async function loadBookings() {
           '<td>' + escapeHtml(b.ticket_type) + '</td>' +
           '<td>' + b.quantity + '</td>' +
           '<td>Rs ' + Number(b.total_amount).toFixed(2) + '</td>' +
-          '<td>' + escapeHtml(b.status) + '</td>' +
+          '<td><span class="status-badge status-' + escapeHtml(b.status) + '">' + escapeHtml(b.status) + '</span></td>' +
           '<td>' + showDate(b.booked_at) + '</td>' +
           '<td>' + action + '</td>' +
         '</tr>';

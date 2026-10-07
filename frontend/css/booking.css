@@ -78,3 +78,52 @@
 @media (max-width: 700px) {
   .checkout-layout { grid-template-columns: 1fr; }
 }
+/* ===== My Bookings page ===== */
+.page-wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+}
+
+#profileBox { margin-bottom: 32px; }
+
+#profileContent { overflow-x: auto; }
+
+.bookings-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1e1b36;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.bookings-table th,
+.bookings-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #2d2950;
+  white-space: nowrap;
+}
+
+.bookings-table th { background: #26224a; color: #c4b5fd; }
+.bookings-table small { color: #a8a3d1; }
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+}
+.status-confirmed { background: #14352a; color: #4ade80; }
+.status-cancelled { background: #3b1a1a; color: #ff6b6b; }
+
+.cancel-btn {
+  padding: 6px 14px;
+  background: transparent;
+  color: #ff6b6b;
+  border: 1px solid #ff6b6b;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.cancel-btn:hover { background: #ff6b6b; color: #fff; }
+.cancel-btn:disabled { opacity: 0.5; cursor: not-allowed; }
