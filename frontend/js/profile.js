@@ -80,6 +80,7 @@ async function loadBookings() {
           '<td>Rs ' + Number(b.total_amount).toFixed(2) + '</td>' +
           '<td>' + escapeHtml(b.status) + '</td>' +
           '<td>' + showDate(b.booked_at) + '</td>' +
+          '<td>' + action + '</td>' +
         '</tr>';
     });
           const action = b.status === 'confirmed'
