@@ -2,7 +2,7 @@ const express = require('express');
 const crypto = require('crypto');
 const router = express.Router();
 const db = require('../config/db');
-const { verifyToken } = require('../middleware/authMiddleware');
+const { verifyToken, verifyAdmin } = require('../middleware/authMiddleware');
 
 const MAX_TICKETS = 10;     // maximum tickets in one booking
 const VIP_MULTIPLIER = 2;   // VIP ticket costs 2x the normal price
