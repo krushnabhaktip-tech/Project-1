@@ -156,4 +156,38 @@ router.put('/bookings/:id/cancel', verifyToken, async (req, res) => {
     if (connection) connection.release();
   }
 });
+// ADMIN: GET ALL BOOKINGS (optional ?status= and ?search=)
+router.get('/admin/bookings', verifyToken, verifyAdmin, (req, res) => {
+  const { status, search } = req.query;
+  const conditions = [];
+  const params = [];
+
+  if (status === 'confirmed' || status === 'cancelled') {
+    conditions.push('b.status = ?');
+    params.push(status);
+  }
+  if (search && search.trim() !== '') {
+    const like = '%' + search.trim() + '%';
+    conditions.push('(u.name LIKE ? OR u.email LIKE ? OR e.title LIKE ? OR b.booking_id LIKE ?)');
+    params.push(like, like, like, like);
+  }
+
+  const where = conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : '';
+  const query = `SELECT b.booking_id, b.ticket_type, b.quantity, b.total_amount, b.status, b.booked_at,
+                        u.name AS user_name, u.email AS user_email,
+                        e.title AS event_title
+                 FROM bookings b
+                 JOIN users u ON b.user_id = u.user_id
+                 JOIN events e ON b.event_id = e.event_id
+                 ${where}
+                 ORDER BY b.booked_at DESC`;
+
+  db.query(query, params, (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server error. Could not fetch bookings.' });
+    }
+    res.status(200).json(results);
+  });
+});
 module.exports = router;
