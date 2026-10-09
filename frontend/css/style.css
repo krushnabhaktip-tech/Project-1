@@ -1,9 +1,9 @@
 :root {
-  --bg: #0f0e1a;
-  --card: #1c1a2e;
+  --bg: #1c1814;
+  --card: #27221c;
   --primary: #f5a524;
-  --accent: #22d3ee;
-  --text: #f1f0ff;
+  --accent: #ffc15e;
+  --text: #f4efe6;
   --error: #f87171;
   --success: #4ade80;
 }
@@ -31,7 +31,7 @@ body {
   max-width: 400px;
   padding: 32px;
   border-radius: 16px;
-  border: 1px solid #2e2b4a;
+  border: 1px solid #443b30;
 }
 
 .auth-card h1 {
@@ -60,7 +60,7 @@ input[type="password"] {
   width: 100%;
   padding: 10px 12px;
   border-radius: 8px;
-  border: 1px solid #3a3660;
+  border: 1px solid #443b30;
   background: var(--bg);
   color: var(--text);
   font-family: inherit;
@@ -93,9 +93,10 @@ input:focus {
   border: none;
   border-radius: 8px;
   background: var(--primary);
-  color: white;
+  color: #1c1200;
   font-family: inherit;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -134,7 +135,7 @@ body.auth-page {
   gap: 12px;
   padding: 14px 32px;
   background: var(--card);
-  border-bottom: 1px solid #2e2b4a;
+  border-bottom: 1px solid #443b30;
 }
 
 .auth-page .brand {
@@ -168,7 +169,7 @@ body.auth-page {
   font-family: inherit;
   cursor: pointer;
 }
-.auth-page .nav-links button:hover { background: var(--primary); }
+.auth-page .nav-links button:hover { background: var(--primary); color: #1c1200; }
 
 /* Keeps the login/register card centered below the navbar */
 .auth-wrapper {
@@ -183,7 +184,7 @@ body.auth-page {
 .back-home {
   display: inline-block;
   margin-bottom: 16px;
-  color: #a09fc0;
+  color: #b5aa9b;
   font-size: 0.85rem;
   text-decoration: none;
 }

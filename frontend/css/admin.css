@@ -1,13 +1,13 @@
 /* ===== Admin page styling (applies only to body.admin-page) ===== */
 body.admin-page {
-  --a-bg: #0f0d1a;
-  --a-panel: #1c1b33;
-  --a-card: #14122a;
-  --a-border: #2e2c4d;
-  --a-text: #f1f0ff;
-  --a-muted: #a09fc0;
+  --a-bg: #1c1814;
+  --a-panel: #27221c;
+  --a-card: #17130f;
+  --a-border: #443b30;
+  --a-text: #f4efe6;
+  --a-muted: #b5aa9b;
   --a-primary: #f5a524;
-  --a-primary-hover: #7c4ae8;
+  --a-primary-hover: #d98a0b;
   --a-danger: #f87171;
   --a-success: #4ade80;
 
@@ -71,7 +71,7 @@ body.admin-page {
 }
 .admin-page .event-card.editing {
   border-color: var(--a-primary);
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.25);
+  box-shadow: 0 0 0 2px rgba(245, 165, 36, 0.25);
 }
 .admin-page .event-top {
   display: flex;
@@ -85,7 +85,7 @@ body.admin-page {
 .admin-page .badge {
   padding: 3px 10px;
   border-radius: 999px;
-  background: rgba(139, 92, 246, 0.2);
+  background: rgba(245, 165, 36, 0.2);
   color: #ffd89a;
   font-size: 0.75rem;
   text-transform: capitalize;
@@ -104,9 +104,9 @@ body.admin-page {
   font-size: 0.9rem;
   font-weight: 600;
 }
-.admin-page .btn-primary { background: var(--a-primary); color: #fff; }
+.admin-page .btn-primary { background: var(--a-primary); color: #1c1200; }
 .admin-page .btn-primary:hover { background: var(--a-primary-hover); }
-.admin-page .btn-edit { background: rgba(139, 92, 246, 0.2); color: #ffd89a; }
+.admin-page .btn-edit { background: rgba(245, 165, 36, 0.2); color: #ffd89a; }
 .admin-page .btn-delete { background: rgba(248, 113, 113, 0.15); color: #fca5a5; }
 .admin-page .btn-outline {
   background: transparent;
@@ -156,42 +156,25 @@ body.admin-page {
   .admin-page #formSection { position: static; }
   .admin-page .admin-header { padding: 16px; }
 }
+
 /* "Back to Home" link styled like a button */
 .admin-page .back-home {
   display: inline-block;
   text-decoration: none;
 }
 
-/* Dropdowns (select) */
-.admin-page .admin-form select {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px 12px;
-  background: var(--a-card);
-  border: 1px solid var(--a-border);
-  border-radius: 8px;
-  color: var(--a-text);
-  font-family: inherit;
-  font-size: 0.95rem;
-  color-scheme: dark;
-}
-.admin-page .admin-form select:focus {
-  outline: none;
-  border-color: var(--a-primary);
-}
-
-/* Link styled like a button (Back to Home) */
+/* Link styled like a button (Back to Home, Manage Bookings) */
 .admin-page a.btn {
   display: inline-block;
   text-decoration: none;
 }
 .admin-nav-btn {
   padding: 8px 16px;
-  color: #fff;
+  color: #f4efe6;
   background: transparent;
-  border: 1px solid #3a342c;
+  border: 1px solid #443b30;
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
 }
-.admin-nav-btn:hover { background: #2a2621; }
+.admin-nav-btn:hover { background: #332c24; }

@@ -76,7 +76,7 @@
   background: var(--h-primary);
   border: none;
   border-radius: 10px;
-  color: #fff;
+  color: #1c1200;
   font-family: inherit;
   font-size: 1rem;
   font-weight: 600;
@@ -96,22 +96,3 @@
   .home-page .details-body { padding: 20px; }
   .home-page .details-body h1 { font-size: 1.5rem; }
 }
-/* ===== Admin bookings ===== */
-.filter-bar {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin: 16px 0 24px;
-}
-.filter-bar input,
-.filter-bar select {
-  padding: 10px 12px;
-  background: #12100e;
-  color: #fff;
-  border: 1px solid #3a342c;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-.filter-bar input { flex: 1; min-width: 220px; }
-.filter-bar .book-btn { width: auto; padding: 10px 20px; }
-#bookingsTable { overflow-x: auto; }

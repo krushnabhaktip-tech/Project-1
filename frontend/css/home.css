@@ -2,14 +2,14 @@
 
 /* ===== Home page styling (applies only to body.home-page) ===== */
 body.home-page {
-  --h-bg: #0f0d1a;
-  --h-panel: #1c1b33;
-  --h-card: #14122a;
-  --h-border: #2e2c4d;
-  --h-text: #f1f0ff;
-  --h-muted: #a09fc0;
+  --h-bg: #1c1814;
+  --h-panel: #27221c;
+  --h-card: #17130f;
+  --h-border: #443b30;
+  --h-text: #f4efe6;
+  --h-muted: #b5aa9b;
   --h-primary: #f5a524;
-  --h-primary-hover: #7c4ae8;
+  --h-primary-hover: #d98a0b;
   --h-danger: #f87171;
 
   margin: 0;
@@ -60,7 +60,7 @@ body.home-page {
 .home-page .hero {
   text-align: center;
   padding: 56px 20px 32px;
-  background: linear-gradient(180deg, #1c1b33 0%, #0f0d1a 100%);
+  background: linear-gradient(180deg, #27221c 0%, #1c1814 100%);
 }
 .home-page .hero h1 { margin: 0 0 10px; font-size: 2.2rem; }
 .home-page .hero p { margin: 0; color: var(--h-muted); }
@@ -117,7 +117,7 @@ body.home-page {
   padding: 3px 12px;
   margin-bottom: 10px;
   border-radius: 999px;
-  background: rgba(139, 92, 246, 0.2);
+  background: rgba(245, 165, 36, 0.2);
   color: #ffd89a;
   font-size: 0.75rem;
   font-weight: 600;
@@ -132,7 +132,7 @@ body.home-page {
   text-align: center;
   background: var(--h-primary);
   border-radius: 8px;
-  color: #fff;
+  color: #1c1200;
   font-weight: 600;
   text-decoration: none;
 }
