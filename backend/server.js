@@ -5,6 +5,7 @@ const db = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
  
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use('/api', authRoutes);
 app.use('/api', eventRoutes);
 app.use('/api', bookingRoutes);
+app.use('/api', notificationRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'NexusCon server is running' });
