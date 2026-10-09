@@ -80,9 +80,12 @@ router.get('/events/:id', (req, res) => {
 });
 
 // UPDATE EVENT (admin only)
-router.put('/events/:id', verifyToken, verifyAdmin, (req, res) => {
+ 
+
+  router.put('/events/:id', verifyToken, verifyAdmin, uploadPoster, (req, res) => {
   const eventId = req.params.id;
   const { title, description, category, venue, event_date, price, total_seats, poster_url, status } = req.body;
+  const poster = req.file ? '/uploads/' + req.file.filename : (poster_url || null);
 
   // available_seats changes by the same amount as total_seats
   // (it must be set before total_seats, because SET runs from left to right)
