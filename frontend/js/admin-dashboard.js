@@ -60,11 +60,11 @@ function kpiCard(label, value) {
 
 function showKpis(stats) {
   document.getElementById('kpiGrid').innerHTML =
-    kpiCard('Total Events ', stats.total_events) +
-    kpiCard('Confirmed Bookings ', stats.total_bookings) +
-    kpiCard('Tickets Sold ', stats.tickets_sold) +
-    kpiCard('Revenue ', money(stats.revenue)) +
-    kpiCard('Cancelled ', stats.cancelled_bookings);
+    kpiCard('Total Events : ', stats.total_events) +
+    kpiCard('Confirmed Bookings : ', stats.total_bookings) +
+    kpiCard('Tickets Sold : ', stats.tickets_sold) +
+    kpiCard('Revenue : ', money(stats.revenue)) +
+    kpiCard('Cancelled : ', stats.cancelled_bookings);
      
 }
 
