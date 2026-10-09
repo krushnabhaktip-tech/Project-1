@@ -132,3 +132,27 @@
 .checkout-box input {
   box-sizing: border-box;
 }
+/* ===== Admin dashboard ===== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 16px 0 24px;
+}
+
+.kpi-card {
+  background: #1e1b36;
+  border: 1px solid #2d2950;
+  border-top: 3px solid #8b5cf6;
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kpi-label { color: #a8a3d1; font-size: 0.9rem; }
+.kpi-value { font-size: 1.6rem; color: #fff; }
+
+.chart-wrap { position: relative; height: 300px; }
+
+.section-title { margin: 32px 0 12px; }
