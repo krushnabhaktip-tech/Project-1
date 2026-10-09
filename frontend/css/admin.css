@@ -185,3 +185,13 @@ body.admin-page {
   display: inline-block;
   text-decoration: none;
 }
+.admin-nav-btn {
+  padding: 8px 16px;
+  color: #fff;
+  background: transparent;
+  border: 1px solid #2d2950;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.admin-nav-btn:hover { background: #26224a; }
