@@ -171,6 +171,7 @@ async function confirmBooking() {
 
   if (!Number.isInteger(qty) || qty < 1 || qty > maxQty) {
      showSuccess(data.booking);
+         if (window.refreshNotifications) window.refreshNotifications();
     return;
   }
 
