@@ -20,6 +20,7 @@ document.getElementById('logoutBtn').addEventListener('click', logout);
 
 // ===== 2. Variables =====
 const API = 'http://localhost:5000/api/events';
+const SERVER = 'http://localhost:5000';   // NEW
 let allEvents = [];
 let editingId = null;
 
@@ -65,11 +66,30 @@ function checkAuthError(response) {
   return false;
 }
 
+// NEW: uploaded images are saved as /uploads/..., so add the server address in front
+function posterSrc(url) {
+  if (!url) return '';
+  return url.startsWith('/uploads/') ? SERVER + url : url;
+}
+
+// NEW: shows or hides the small image preview under the file input
+function showPreview(src) {
+  const img = document.getElementById('posterPreview');
+  if (src) {
+    img.src = src;
+    img.style.display = 'block';
+  } else {
+    img.removeAttribute('src');
+    img.style.display = 'none';
+  }
+}
+
 function resetForm() {
   document.getElementById('eventForm').reset();
   document.getElementById('status').value = 'upcoming';
   document.getElementById('formTitle').textContent = 'Create New Event';
   document.getElementById('saveBtn').textContent = 'Create Event';
+  showPreview('');   // NEW
   editingId = null;
   renderEvents();
 }
@@ -118,20 +138,43 @@ async function loadEvents() {
 }
 
 // ===== 5. Create and Update (same form) =====
+// NEW: checks the chosen image and shows a preview
+document.getElementById('posterFile').addEventListener('change', function () {
+  const file = this.files[0];
+  if (!file) {
+    showPreview(posterSrc(document.getElementById('poster_url').value));
+    return;
+  }
+  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+    showMessage('Only JPG, PNG or WEBP images are allowed.', true);
+    this.value = '';
+    return;
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    showMessage('Image must be 2 MB or smaller.', true);
+    this.value = '';
+    return;
+  }
+  showPreview(URL.createObjectURL(file));
+});
+
 document.getElementById('eventForm').addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  const data = {
-    title: document.getElementById('title').value,
-    description: document.getElementById('description').value,
-    category: document.getElementById('category').value,
-    venue: document.getElementById('venue').value,
-    event_date: document.getElementById('event_date').value.replace('T', ' '),
-    price: document.getElementById('price').value || 0,
-    total_seats: document.getElementById('total_seats').value,
-    poster_url: document.getElementById('poster_url').value,
-    status: document.getElementById('status').value
-  };
+  // NEW: FormData is used instead of JSON because the form can contain an image file
+  const data = new FormData();
+  data.append('title', document.getElementById('title').value);
+  data.append('description', document.getElementById('description').value);
+  data.append('category', document.getElementById('category').value);
+  data.append('venue', document.getElementById('venue').value);
+  data.append('event_date', document.getElementById('event_date').value.replace('T', ' '));
+  data.append('price', document.getElementById('price').value || 0);
+  data.append('total_seats', document.getElementById('total_seats').value);
+  data.append('poster_url', document.getElementById('poster_url').value);
+  data.append('status', document.getElementById('status').value);
+
+  const file = document.getElementById('posterFile').files[0];
+  if (file) data.append('poster', file);   // the name must be "poster"
 
   const url = editingId ? API + '/' + editingId : API;
   const method = editingId ? 'PUT' : 'POST';
@@ -139,11 +182,8 @@ document.getElementById('eventForm').addEventListener('submit', async function (
   try {
     const response = await fetch(url, {
       method: method,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      },
-      body: JSON.stringify(data)
+      headers: { 'Authorization': 'Bearer ' + token },   // no Content-Type: the browser sets it
+      body: data
     });
 
     if (checkAuthError(response)) return;
@@ -172,6 +212,8 @@ function editEvent(id) {
   document.getElementById('price').value = item.price;
   document.getElementById('total_seats').value = item.total_seats;
   document.getElementById('poster_url').value = item.poster_url || '';
+  document.getElementById('posterFile').value = '';          // NEW
+  showPreview(posterSrc(item.poster_url));                   // NEW
   document.getElementById('status').value = item.status;
 
   editingId = id;
