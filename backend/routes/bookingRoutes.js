@@ -190,4 +190,56 @@ router.get('/admin/bookings', verifyToken, verifyAdmin, (req, res) => {
     res.status(200).json(results);
   });
 });
+// ADMIN: DASHBOARD STATS
+router.get('/admin/stats', verifyToken, verifyAdmin, async (req, res) => {
+  try {
+    const pool = db.promise();
+
+    const [[events]] = await pool.query('SELECT COUNT(*) AS total_events FROM events');
+
+    const [[confirmed]] = await pool.query(
+      `SELECT COUNT(*) AS total_bookings,
+              COALESCE(SUM(total_amount), 0) AS revenue,
+              COALESCE(SUM(quantity), 0) AS tickets_sold
+       FROM bookings WHERE status = 'confirmed'`
+    );
+
+    const [[cancelled]] = await pool.query(
+      "SELECT COUNT(*) AS cancelled_bookings FROM bookings WHERE status = 'cancelled'"
+    );
+
+    // Revenue per day for the last 7 days (confirmed bookings only)
+    const [sales] = await pool.query(
+      `SELECT DATE_FORMAT(booked_at, '%Y-%m-%d') AS day,
+              COALESCE(SUM(total_amount), 0) AS revenue
+       FROM bookings
+       WHERE status = 'confirmed' AND booked_at >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)
+       GROUP BY DATE_FORMAT(booked_at, '%Y-%m-%d')
+       ORDER BY day`
+    );
+
+    const [recent] = await pool.query(
+      `SELECT b.booking_id, b.total_amount, b.status, b.booked_at,
+              u.name AS user_name, e.title AS event_title
+       FROM bookings b
+       JOIN users u ON b.user_id = u.user_id
+       JOIN events e ON b.event_id = e.event_id
+       ORDER BY b.booked_at DESC
+       LIMIT 5`
+    );
+
+    res.status(200).json({
+      total_events: events.total_events,
+      total_bookings: confirmed.total_bookings,
+      cancelled_bookings: cancelled.cancelled_bookings,
+      tickets_sold: Number(confirmed.tickets_sold),
+      revenue: Number(confirmed.revenue),
+      sales: sales.map(function (s) { return { day: s.day, revenue: Number(s.revenue) }; }),
+      recent: recent
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Server error. Could not load dashboard.' });
+  }
+});
 module.exports = router;
