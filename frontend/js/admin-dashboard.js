@@ -89,7 +89,7 @@ function drawChart(sales) {
     values.push(revenueByDay[dayKey(date)] || 0);
   }
 
-  Chart.defaults.color = '#a8a3d1';
+  Chart.defaults.color = '#b5aa9b';
   new Chart(document.getElementById('salesChart'), {
     type: 'bar',
     data: {
