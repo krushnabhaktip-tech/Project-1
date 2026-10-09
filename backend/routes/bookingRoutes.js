@@ -31,8 +31,9 @@ router.post('/bookings', verifyToken, async (req, res) => {
     await connection.beginTransaction();
 
     // Lock the event row so two users cannot book the last seat at the same time
+    // NEW: title is also selected, so the notification can show the event name
     const [rows] = await connection.query(
-      'SELECT event_id, price, available_seats, status FROM events WHERE event_id = ? FOR UPDATE',
+      'SELECT event_id, title, price, available_seats, status FROM events WHERE event_id = ? FOR UPDATE',
       [event_id]
     );
 
@@ -69,6 +70,12 @@ router.post('/bookings', verifyToken, async (req, res) => {
       [qty, event_id]
     );
 
+    // NEW: notification is created in the same transaction as the booking
+    await connection.query(
+      'INSERT INTO notifications (user_id, message) VALUES (?, ?)',
+      [req.user.user_id, 'Booking confirmed: ' + qty + ' x ' + type + ' ticket(s) for ' + event.title + '.']
+    );
+
     await connection.commit();
 
     res.status(201).json({
@@ -89,6 +96,7 @@ router.post('/bookings', verifyToken, async (req, res) => {
     if (connection) connection.release();
   }
 });
+
 // GET MY BOOKINGS (logged-in users see only their own bookings)
 router.get('/bookings/my', verifyToken, (req, res) => {
   const query = `SELECT b.booking_id, b.event_id, b.ticket_type, b.quantity, b.total_amount,
@@ -107,6 +115,7 @@ router.get('/bookings/my', verifyToken, (req, res) => {
     res.status(200).json(results);
   });
 });
+
 // CANCEL BOOKING (users can cancel only their own confirmed bookings)
 router.put('/bookings/:id/cancel', verifyToken, async (req, res) => {
   const bookingId = req.params.id;
@@ -145,6 +154,17 @@ router.put('/bookings/:id/cancel', verifyToken, async (req, res) => {
       [booking.quantity, booking.event_id]
     );
 
+    // NEW: notification for the cancellation (same transaction)
+    const [eventRows] = await connection.query(
+      'SELECT title FROM events WHERE event_id = ?',
+      [booking.event_id]
+    );
+    const title = eventRows.length > 0 ? eventRows[0].title : 'your event';
+    await connection.query(
+      'INSERT INTO notifications (user_id, message) VALUES (?, ?)',
+      [req.user.user_id, 'Booking cancelled: ' + booking.quantity + ' ticket(s) for ' + title + '. Seats released.']
+    );
+
     await connection.commit();
 
     res.status(200).json({ message: 'Booking cancelled. Seats released.' });
@@ -156,6 +176,7 @@ router.put('/bookings/:id/cancel', verifyToken, async (req, res) => {
     if (connection) connection.release();
   }
 });
+
 // ADMIN: GET ALL BOOKINGS (optional ?status= and ?search=)
 router.get('/admin/bookings', verifyToken, verifyAdmin, (req, res) => {
   const { status, search } = req.query;
@@ -190,6 +211,7 @@ router.get('/admin/bookings', verifyToken, verifyAdmin, (req, res) => {
     res.status(200).json(results);
   });
 });
+
 // ADMIN: DASHBOARD STATS
 router.get('/admin/stats', verifyToken, verifyAdmin, async (req, res) => {
   try {
@@ -242,4 +264,5 @@ router.get('/admin/stats', verifyToken, verifyAdmin, async (req, res) => {
     res.status(500).json({ message: 'Server error. Could not load dashboard.' });
   }
 });
+
 module.exports = router;
