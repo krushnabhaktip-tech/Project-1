@@ -1,18 +1,21 @@
 const express = require('express');
+const fs = require('fs');
 const router = express.Router();
 const db = require('../config/db');
 const { verifyToken, verifyAdmin } = require('../middleware/authMiddleware');
-const fs = require('fs');
-const uploadPoster = require('../middleware/upload');
+const uploadPoster = require('../middleware/upload');   // NEW
 
-// Deletes an uploaded file when the request fails (so no unused files are left)
+// NEW: deletes an uploaded file when the request fails (so no unused files are left)
 function removeUploaded(file) {
   if (file) fs.unlink(file.path, function () {});
 }
 
 // CREATE EVENT (admin only)
+// NEW: uploadPoster runs after the admin check, so only admins can upload files
 router.post('/events', verifyToken, verifyAdmin, uploadPoster, (req, res) => {
   const { title, description, category, venue, event_date, price, total_seats, poster_url } = req.body;
+
+  // NEW: an uploaded image wins, otherwise the pasted link (or nothing) is used
   const poster = req.file ? '/uploads/' + req.file.filename : (poster_url || null);
 
   if (!title || !event_date || !venue || !total_seats) {
@@ -32,13 +35,14 @@ router.post('/events', verifyToken, verifyAdmin, uploadPoster, (req, res) => {
     price,
     total_seats,
     total_seats,      // available seats start equal to total seats
-    poster_url,
+    poster,
     'upcoming',       // default status
     req.user.user_id  // id of the admin who created the event (from the token)
   ];
 
   db.query(query, values, (err, result) => {
     if (err) {
+      removeUploaded(req.file);
       console.log(err);
       return res.status(500).json({ message: 'Server error. Could not create event.' });
     }
@@ -80,11 +84,11 @@ router.get('/events/:id', (req, res) => {
 });
 
 // UPDATE EVENT (admin only)
- 
-
-  router.put('/events/:id', verifyToken, verifyAdmin, uploadPoster, (req, res) => {
+router.put('/events/:id', verifyToken, verifyAdmin, uploadPoster, (req, res) => {
   const eventId = req.params.id;
   const { title, description, category, venue, event_date, price, total_seats, poster_url, status } = req.body;
+
+  // NEW: a new image replaces the old one, otherwise the old poster path stays
   const poster = req.file ? '/uploads/' + req.file.filename : (poster_url || null);
 
   // available_seats changes by the same amount as total_seats
@@ -95,15 +99,17 @@ router.get('/events/:id', (req, res) => {
                      total_seats = ?, poster_url = ?, status = ?
                  WHERE event_id = ?`;
 
-  const values = [title, description, category, venue, event_date, price, total_seats, total_seats, poster_url, status, eventId];
+  const values = [title, description, category, venue, event_date, price, total_seats, total_seats, poster, status, eventId];
 
   db.query(query, values, (err, result) => {
     if (err) {
+      removeUploaded(req.file);
       console.log(err);
       return res.status(500).json({ message: 'Server error. Could not update event.' });
     }
 
     if (result.affectedRows === 0) {
+      removeUploaded(req.file);
       return res.status(404).json({ message: 'Event not found.' });
     }
 

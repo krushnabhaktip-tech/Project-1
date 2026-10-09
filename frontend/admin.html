@@ -14,10 +14,10 @@
       <h1>NexusCon Admin</h1>
       <p class="subtitle">Manage your events</p>
     </div>
-          <div class="admin-user">
+    <div class="admin-user">
       <span>Welcome, <strong id="adminName"></strong></span>
       <a href="index.html" class="btn btn-outline">Back to Home</a>
-      <a href="admin-bookings.html" class="admin-nav-btn">Manage Bookings</a>
+      <a href="admin-bookings.html" class="btn btn-outline">Manage Bookings</a>
       <a href="admin-dashboard.html" class="btn btn-outline">Dashboard</a>
       <button id="logoutBtn" class="btn btn-outline">Logout</button>
     </div>
@@ -65,12 +65,14 @@
           </div>
         </div>
 
-      <label for="posterFile">Poster image (JPG, PNG or WEBP, max 2 MB)</label>
-          <input type="file" id="posterFile" accept="image/jpeg,image/png,image/webp">
-          <img id="posterPreview" class="poster-preview" alt="" style="display:none">
+        <label for="posterFile">Poster image (JPG, PNG or WEBP, max 2 MB)</label>
+        <input type="file" id="posterFile" accept="image/jpeg,image/png,image/webp">
+        <img id="posterPreview" class="poster-preview" alt="" style="display:none">
 
-      <label for="poster_url">Poster path or URL (optional)</label>
-      <input type="text" id="poster_url" placeholder="Filled automatically after upload, or paste a link">
+        <label for="poster_url">Poster path or URL (optional)</label>
+        <input type="text" id="poster_url" placeholder="Filled automatically after upload, or paste a link">
+
+        <label for="status">Status</label>
         <select id="status">
           <option value="upcoming">Upcoming</option>
           <option value="live">Live</option>
