@@ -1,4 +1,5 @@
 const API = 'http://localhost:5000/api/events';
+const SERVER = 'http://localhost:5000';   // NEW
 let allEvents = [];
 
 // ===== Navbar: show links based on login status =====
@@ -32,6 +33,12 @@ function escapeHtml(text) {
     .replace(/"/g, '&quot;');
 }
 
+// NEW: uploaded images are saved as /uploads/..., so add the server address in front
+function posterSrc(url) {
+  if (!url) return '';
+  return url.startsWith('/uploads/') ? SERVER + url : url;
+}
+
 function showDate(dateString) {
   return new Date(dateString).toLocaleString('en-IN', {
     day: '2-digit', month: 'short', year: 'numeric',
@@ -51,8 +58,9 @@ function renderEvents(list) {
   let html = '';
   list.forEach(function (item) {
     const soldOut = item.available_seats <= 0;
+    // NEW: posterSrc() is used here
     const poster = item.poster_url
-      ? '<img class="poster" src="' + escapeHtml(item.poster_url) + '" alt="" onerror="this.style.display=\'none\'">'
+      ? '<img class="poster" src="' + escapeHtml(posterSrc(item.poster_url)) + '" alt="" onerror="this.style.display=\'none\'">'
       : '';
 
     html +=

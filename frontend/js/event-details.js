@@ -1,4 +1,5 @@
 const API = 'http://localhost:5000/api/events';
+const SERVER = 'http://localhost:5000';   // NEW
 
 // ===== Navbar: show links based on login status =====
 const token = localStorage.getItem('token');
@@ -31,6 +32,12 @@ function escapeHtml(text) {
     .replace(/"/g, '&quot;');
 }
 
+// NEW: uploaded images are saved as /uploads/..., so add the server address in front
+function posterSrc(url) {
+  if (!url) return '';
+  return url.startsWith('/uploads/') ? SERVER + url : url;
+}
+
 function showDate(dateString) {
   return new Date(dateString).toLocaleString('en-IN', {
     weekday: 'long', day: '2-digit', month: 'long', year: 'numeric',
@@ -52,8 +59,9 @@ function renderEvent(item) {
     buttonText = 'Booking Closed';
   }
 
+  // NEW: posterSrc() is used here
   const poster = item.poster_url
-    ? '<img class="details-poster" src="' + escapeHtml(item.poster_url) + '" alt="" onerror="this.style.display=\'none\'">'
+    ? '<img class="details-poster" src="' + escapeHtml(posterSrc(item.poster_url)) + '" alt="" onerror="this.style.display=\'none\'">'
     : '';
 
   document.getElementById('eventDetails').innerHTML =
