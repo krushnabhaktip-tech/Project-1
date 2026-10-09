@@ -178,3 +178,12 @@ body.admin-page {
   font-weight: 600;
 }
 .admin-nav-btn:hover { background: #332c24; }
+.admin-page .poster-preview {
+  display: block;
+  max-width: 100%;
+  max-height: 160px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--a-border);
+}
+.admin-page .admin-form input[type="file"] { padding: 8px; }

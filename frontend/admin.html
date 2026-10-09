@@ -65,10 +65,12 @@
           </div>
         </div>
 
-        <label for="poster_url">Poster URL</label>
-        <input type="text" id="poster_url" placeholder="https://...">
+      <label for="posterFile">Poster image (JPG, PNG or WEBP, max 2 MB)</label>
+          <input type="file" id="posterFile" accept="image/jpeg,image/png,image/webp">
+          <img id="posterPreview" class="poster-preview" alt="" style="display:none">
 
-        <label for="status">Status</label>
+      <label for="poster_url">Poster path or URL (optional)</label>
+      <input type="text" id="poster_url" placeholder="Filled automatically after upload, or paste a link">
         <select id="status">
           <option value="upcoming">Upcoming</option>
           <option value="live">Live</option>
