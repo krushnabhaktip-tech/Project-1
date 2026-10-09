@@ -11,10 +11,12 @@ function removeUploaded(file) {
 }
 
 // CREATE EVENT (admin only)
-router.post('/events', verifyToken, verifyAdmin, (req, res) => {
+router.post('/events', verifyToken, verifyAdmin, uploadPoster, (req, res) => {
   const { title, description, category, venue, event_date, price, total_seats, poster_url } = req.body;
+  const poster = req.file ? '/uploads/' + req.file.filename : (poster_url || null);
 
   if (!title || !event_date || !venue || !total_seats) {
+    removeUploaded(req.file);
     return res.status(400).json({ message: 'Please fill all required fields.' });
   }
 
