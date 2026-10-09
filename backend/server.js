@@ -16,6 +16,8 @@ app.use('/api', authRoutes);
 app.use('/api', eventRoutes);
 app.use('/api', bookingRoutes);
 app.use('/api', notificationRoutes);
+// Makes uploaded images available at http://localhost:5000/uploads/<file name>
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'NexusCon server is running' });
