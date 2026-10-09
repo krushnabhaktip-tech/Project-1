@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Bookings - NexusCon</title>
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/booking.css">
+  
+</head>
+<body class="home-page">
+
+  <nav class="navbar">
+    <a href="index.html" class="brand">NexusCon</a>
+    <div class="nav-links">
+      <a href="index.html">Events</a>
+      <a href="profile.html">My Bookings</a>
+      <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+      <span id="userGreeting"></span>
+      <a href="login.html" id="loginLink">Login</a>
+      <a href="register.html" id="registerLink">Register</a>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+  </nav>
+
+<div class="page-wrap">
+  <a class="back-link" href="admin.html">&larr; Back to admin</a>
+  <h1>Admin Dashboard</h1>
+
+  <div class="kpi-grid" id="kpiGrid">Loading...</div>
+
+  <div class="checkout-box">
+    <h2>Sales: last 7 days</h2>
+    <div class="chart-wrap"><canvas id="salesChart"></canvas></div>
+  </div>
+
+  <h2 class="section-title">Recent Transactions</h2>
+  <div id="recentTable">Loading...</div>
+  <a class="back-link" href="admin-bookings.html">View all bookings &rarr;</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="js/admin-dashboard.js"></script>
+
+   
+</body>
+</html>
