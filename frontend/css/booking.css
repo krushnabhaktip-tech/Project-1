@@ -70,7 +70,7 @@
   font-weight: 600;
   cursor: pointer;
 }
-.book-btn:hover { background: #7c3aed; }
+.book-btn:hover { background: #d98a0b; }
 .book-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .book-message { margin-top: 12px; min-height: 1.2em; }
