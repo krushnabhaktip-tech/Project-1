@@ -86,7 +86,7 @@ body.admin-page {
   padding: 3px 10px;
   border-radius: 999px;
   background: rgba(139, 92, 246, 0.2);
-  color: #c4b5fd;
+  color: #ffd89a;
   font-size: 0.75rem;
   text-transform: capitalize;
   white-space: nowrap;
@@ -106,7 +106,7 @@ body.admin-page {
 }
 .admin-page .btn-primary { background: var(--a-primary); color: #fff; }
 .admin-page .btn-primary:hover { background: var(--a-primary-hover); }
-.admin-page .btn-edit { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; }
+.admin-page .btn-edit { background: rgba(139, 92, 246, 0.2); color: #ffd89a; }
 .admin-page .btn-delete { background: rgba(248, 113, 113, 0.15); color: #fca5a5; }
 .admin-page .btn-outline {
   background: transparent;

@@ -88,7 +88,7 @@
   color: var(--h-muted);
   cursor: not-allowed;
 }
-.home-page .book-message { margin: 12px 0 0; color: #c4b5fd; font-size: 0.9rem; }
+.home-page .book-message { margin: 12px 0 0; color: #ffd89a; font-size: 0.9rem; }
 
 /* Small screens (mobile) */
 @media (max-width: 600px) {
