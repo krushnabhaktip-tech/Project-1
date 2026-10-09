@@ -97,7 +97,7 @@ function drawChart(sales) {
       datasets: [{
         label: 'Revenue (Rs)',
         data: values,
-        backgroundColor: '#8b5cf6',
+        backgroundColor: '#f5a524',
         borderRadius: 6
       }]
     },
