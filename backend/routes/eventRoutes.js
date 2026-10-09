@@ -2,6 +2,13 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 const { verifyToken, verifyAdmin } = require('../middleware/authMiddleware');
+const fs = require('fs');
+const uploadPoster = require('../middleware/upload');
+
+// Deletes an uploaded file when the request fails (so no unused files are left)
+function removeUploaded(file) {
+  if (file) fs.unlink(file.path, function () {});
+}
 
 // CREATE EVENT (admin only)
 router.post('/events', verifyToken, verifyAdmin, (req, res) => {
