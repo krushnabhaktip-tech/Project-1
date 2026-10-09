@@ -185,6 +185,7 @@ document.getElementById('profileContent').addEventListener('click', async functi
 
     alert(data.message);
     loadBookings();   // reload the table so the new status shows
+        if (window.refreshNotifications) window.refreshNotifications();
   } catch (error) {
     alert('Could not connect to the server.');
     e.target.disabled = false;
