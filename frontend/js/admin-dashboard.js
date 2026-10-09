@@ -106,7 +106,7 @@ function drawChart(sales) {
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        y: { beginAtZero: true, grid: { color: '#2d2950' } },
+        y: { beginAtZero: true, grid: { color: '#3a342c' } },
         x: { grid: { display: false } }
       }
     }

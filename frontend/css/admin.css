@@ -189,9 +189,9 @@ body.admin-page {
   padding: 8px 16px;
   color: #fff;
   background: transparent;
-  border: 1px solid #2d2950;
+  border: 1px solid #3a342c;
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
 }
-.admin-nav-btn:hover { background: #26224a; }
+.admin-nav-btn:hover { background: #2a2621; }

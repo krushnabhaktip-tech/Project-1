@@ -106,9 +106,9 @@
 .filter-bar input,
 .filter-bar select {
   padding: 10px 12px;
-  background: #13102a;
+  background: #12100e;
   color: #fff;
-  border: 1px solid #2d2950;
+  border: 1px solid #3a342c;
   border-radius: 8px;
   font-size: 1rem;
 }
