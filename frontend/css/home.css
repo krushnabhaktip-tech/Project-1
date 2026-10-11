@@ -144,3 +144,13 @@ body.home-page {
   .home-page .hero h1 { font-size: 1.6rem; }
   .home-page .filters, .home-page main { padding-left: 16px; padding-right: 16px; }
 }
+
+/* ===== Responsive navbar ===== */
+.home-page .nav-links { flex-wrap: wrap; justify-content: flex-end; }
+
+@media (max-width: 700px) {
+  .home-page .navbar { flex-direction: column; align-items: flex-start; }
+  .home-page .nav-links { gap: 10px 14px; justify-content: flex-start; }
+  .home-page .nav-links a,
+  .home-page #userGreeting { font-size: 0.9rem; }
+}
