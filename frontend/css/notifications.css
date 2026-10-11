@@ -79,3 +79,15 @@
 .notif-item.unread p { color: #f4efe6; font-weight: 600; }
 
 .notif-empty { padding: 20px 14px; margin: 0; color: #b5aa9b; text-align: center; }
+
+/* ===== Notification panel on small phones ===== */
+@media (max-width: 500px) {
+  .notif-panel {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    top: 120px;
+    width: auto;
+    max-width: none;
+  }
+}
