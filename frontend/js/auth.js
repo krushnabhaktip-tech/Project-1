@@ -72,7 +72,7 @@ if (registerForm) {
     msg.textContent = 'Registering...';
 
     try {
-      const response = await fetch('http://localhost:5000/api/register', {
+      const response = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
@@ -132,7 +132,7 @@ msg.style.color = 'var(--text)';
 msg.textContent = 'Logging in...';
 
 try {
-  const response = await fetch('http://localhost:5000/api/login', {
+  const response = await fetch('/api/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })

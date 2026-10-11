@@ -1,4 +1,4 @@
-const API = 'http://localhost:5000/api/events';
+const API = '/api/events';
 
 // ===== Login check and navbar =====
 const token = localStorage.getItem('token');
@@ -160,7 +160,7 @@ function showSuccess(booking) {
     '</div>';
 }
 // ===== Confirm booking (calls POST /api/bookings) =====
-const BOOKING_API = 'http://localhost:5000/api/bookings';
+const BOOKING_API = '/api/bookings';
 
 async function confirmBooking() {
   const btn = document.getElementById('confirmBtn');

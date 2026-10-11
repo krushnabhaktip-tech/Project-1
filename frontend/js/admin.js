@@ -19,8 +19,8 @@ function logout() {
 document.getElementById('logoutBtn').addEventListener('click', logout);
 
 // ===== 2. Variables =====
-const API = 'http://localhost:5000/api/events';
-const SERVER = 'http://localhost:5000';   // NEW
+const API = '/api/events';
+const SERVER = '';   // NEW
 let allEvents = [];
 let editingId = null;
 

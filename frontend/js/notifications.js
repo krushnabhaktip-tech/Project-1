@@ -4,7 +4,7 @@
   const nav = document.querySelector('.nav-links');
   if (!token || !nav) return;
 
-  const API = 'http://localhost:5000/api/notifications';
+  const API = '/api/notifications';
   const headers = { 'Authorization': 'Bearer ' + token };
 
   // Build the bell and the dropdown

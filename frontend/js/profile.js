@@ -40,7 +40,7 @@ function showDate(dateString) {
 }
 
 // ===== Load and show my bookings =====
-const BOOKINGS_API = 'http://localhost:5000/api/bookings/my';
+const BOOKINGS_API = '/api/bookings/my';
 
 async function loadBookings() {
   const box = document.getElementById('profileContent');
@@ -102,7 +102,7 @@ async function loadBookings() {
   }
 }
 // ===== Profile box (view and edit name) =====
-const PROFILE_API = 'http://localhost:5000/api/profile';
+const PROFILE_API = '/api/profile';
 
 async function loadProfile() {
   const box = document.getElementById('profileBox');
@@ -171,7 +171,7 @@ document.getElementById('profileContent').addEventListener('click', async functi
   e.target.disabled = true;   // stops double clicks
 
   try {
-    const response = await fetch('http://localhost:5000/api/bookings/' + encodeURIComponent(bookingId) + '/cancel', {
+    const response = await fetch('/api/bookings/' + encodeURIComponent(bookingId) + '/cancel', {
       method: 'PUT',
       headers: { 'Authorization': 'Bearer ' + token }
     });

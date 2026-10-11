@@ -1,5 +1,5 @@
-const API = 'http://localhost:5000/api/events';
-const SERVER = 'http://localhost:5000';   // NEW
+const API = '/api/events';
+const SERVER = '';   // NEW
 
 // ===== Navbar: show links based on login status =====
 const token = localStorage.getItem('token');

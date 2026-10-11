@@ -38,7 +38,7 @@ function showDate(dateString) {
 }
 
 // ===== Load bookings (with search and filter) =====
-const ADMIN_API = 'http://localhost:5000/api/admin/bookings';
+const ADMIN_API = '/api/admin/bookings';
 let currentRows = [];   // the rows currently on screen (used for CSV)
 
 async function loadBookings() {

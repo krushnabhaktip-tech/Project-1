@@ -144,7 +144,7 @@ function showRecent(recent) {
 // ===== Load everything =====
 async function loadDashboard() {
   try {
-    const response = await fetch('http://localhost:5000/api/admin/stats', {
+    const response = await fetch('/api/admin/stats', {
       headers: { 'Authorization': 'Bearer ' + token }
     });
 
