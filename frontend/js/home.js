@@ -1,5 +1,5 @@
 const API = '/api/events';
-const SERVER = '';   // NEW
+const SERVER = '';
 let allEvents = [];
 
 // ===== Navbar: show links based on login status =====
@@ -33,7 +33,7 @@ function escapeHtml(text) {
     .replace(/"/g, '&quot;');
 }
 
-// NEW: uploaded images are saved as /uploads/..., so add the server address in front
+// Uploaded images are saved as /uploads/..., so add the server address in front
 function posterSrc(url) {
   if (!url) return '';
   return url.startsWith('/uploads/') ? SERVER + url : url;
@@ -58,7 +58,6 @@ function renderEvents(list) {
   let html = '';
   list.forEach(function (item) {
     const soldOut = item.available_seats <= 0;
-    // NEW: posterSrc() is used here
     const poster = item.poster_url
       ? '<img class="poster" src="' + escapeHtml(posterSrc(item.poster_url)) + '" alt="" onerror="this.style.display=\'none\'">'
       : '';
@@ -171,14 +170,43 @@ async function loadEvents() {
     const response = await fetch(API);
     allEvents = await response.json();
     fillCategories();
-    renderEvents(allEvents);
+    applyFilters();   // CHANGED: was renderEvents(allEvents)
   } catch (error) {
     document.getElementById('eventsGrid').innerHTML =
       '<p class="empty">Could not connect to the server. Is the backend running? (npm run dev)</p>';
   }
 }
 
-document.getElementById('searchBox').addEventListener('input', applyFilters);
-document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+// CHANGED: new listeners for all filters, the Clear button and the page buttons
+// Any filter change goes back to page 1
+function onFilterChange() {
+  currentPage = 1;
+  applyFilters();
+}
+
+['searchBox', 'dateFrom', 'dateTo', 'minPrice', 'maxPrice'].forEach(function (id) {
+  document.getElementById(id).addEventListener('input', onFilterChange);
+});
+['categoryFilter', 'sortSelect'].forEach(function (id) {
+  document.getElementById(id).addEventListener('change', onFilterChange);
+});
+
+document.getElementById('clearFilters').addEventListener('click', function () {
+  ['searchBox', 'dateFrom', 'dateTo', 'minPrice', 'maxPrice'].forEach(function (id) {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('categoryFilter').value = '';
+  document.getElementById('sortSelect').value = 'date';
+  onFilterChange();
+});
+
+// Page buttons (one listener for all buttons)
+document.getElementById('pagination').addEventListener('click', function (e) {
+  const btn = e.target.closest('.page-btn');
+  if (!btn || btn.disabled) return;
+  currentPage = Number(btn.getAttribute('data-page'));
+  applyFilters();
+  document.getElementById('eventsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
 
 loadEvents();
