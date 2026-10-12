@@ -154,3 +154,58 @@ body.home-page {
   .home-page .nav-links a,
   .home-page #userGreeting { font-size: 0.9rem; }
 }
+/* ===== Filters (date, price, sort) and pagination ===== */
+.home-page .filter-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--h-muted);
+  font-size: 0.85rem;
+}
+.home-page .filters input[type="date"],
+.home-page .filters input[type="number"] {
+  flex: 0 0 auto;
+  max-width: none;
+  color-scheme: dark;
+}
+.home-page .filters input[type="number"] { width: 110px; }
+
+.home-page .clear-btn {
+  padding: 12px 18px;
+  background: transparent;
+  border: 1px solid var(--h-border);
+  border-radius: 10px;
+  color: var(--h-text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.home-page .clear-btn:hover { border-color: var(--h-primary); }
+
+.home-page .pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+.home-page .page-info { margin: 0; color: var(--h-muted); font-size: 0.9rem; }
+.home-page .page-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.home-page .page-btn {
+  min-width: 40px;
+  padding: 8px 14px;
+  background: var(--h-panel);
+  border: 1px solid var(--h-border);
+  border-radius: 8px;
+  color: var(--h-text);
+  font-family: inherit;
+  cursor: pointer;
+}
+.home-page .page-btn:hover:not(:disabled) { border-color: var(--h-primary); }
+.home-page .page-btn.active {
+  background: var(--h-primary);
+  border-color: var(--h-primary);
+  color: #1c1200;
+  font-weight: 600;
+}
+.home-page .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }

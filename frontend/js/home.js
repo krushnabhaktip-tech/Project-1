@@ -82,20 +82,75 @@ function renderEvents(list) {
   grid.innerHTML = html;
 }
 
-// ===== Search and category filter =====
+// ===== Search, filters, sort and pagination =====
+const PAGE_SIZE = 8;     // events shown on one page
+let currentPage = 1;
+
+// Makes "YYYY-MM-DD" from a date (in local time) so it can be compared with the date inputs
+function dayKey(dateString) {
+  const d = new Date(dateString);
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return d.getFullYear() + '-' + m + '-' + day;
+}
+
 function applyFilters() {
-  const text = document.getElementById('searchBox').value.toLowerCase();
+  const text = document.getElementById('searchBox').value.toLowerCase().trim();
   const category = document.getElementById('categoryFilter').value;
+  const dateFrom = document.getElementById('dateFrom').value;
+  const dateTo = document.getElementById('dateTo').value;
+  const minPrice = document.getElementById('minPrice').value;
+  const maxPrice = document.getElementById('maxPrice').value;
+  const sort = document.getElementById('sortSelect').value;
 
   const filtered = allEvents.filter(function (item) {
-    const matchText =
-      item.title.toLowerCase().includes(text) ||
-      item.venue.toLowerCase().includes(text);
-    const matchCategory = category === '' || item.category === category;
-    return matchText && matchCategory;
+    const key = dayKey(item.event_date);
+    const price = Number(item.price);
+    return (item.title.toLowerCase().includes(text) || item.venue.toLowerCase().includes(text)) &&
+           (category === '' || item.category === category) &&
+           (dateFrom === '' || key >= dateFrom) &&
+           (dateTo === '' || key <= dateTo) &&
+           (minPrice === '' || price >= Number(minPrice)) &&
+           (maxPrice === '' || price <= Number(maxPrice));
   });
 
-  renderEvents(filtered);
+  if (sort === 'price-low') {
+    filtered.sort(function (a, b) { return Number(a.price) - Number(b.price); });
+  } else if (sort === 'price-high') {
+    filtered.sort(function (a, b) { return Number(b.price) - Number(a.price); });
+  }   // "date" keeps the order from the server (soonest first)
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  if (currentPage > totalPages) currentPage = totalPages;
+  const start = (currentPage - 1) * PAGE_SIZE;
+
+  renderEvents(filtered.slice(start, start + PAGE_SIZE));
+  renderPagination(filtered.length, totalPages, start);
+}
+
+function renderPagination(total, totalPages, start) {
+  const box = document.getElementById('pagination');
+  if (total === 0) {
+    box.innerHTML = '';
+    return;
+  }
+
+  const to = Math.min(start + PAGE_SIZE, total);
+  let html = '<p class="page-info">Showing ' + (start + 1) + '-' + to + ' of ' + total + ' events</p>';
+
+  if (totalPages > 1) {
+    html += '<div class="page-buttons">';
+    html += '<button type="button" class="page-btn" data-page="' + (currentPage - 1) + '"' +
+            (currentPage === 1 ? ' disabled' : '') + '>Prev</button>';
+    for (let p = 1; p <= totalPages; p++) {
+      html += '<button type="button" class="page-btn' + (p === currentPage ? ' active' : '') +
+              '" data-page="' + p + '">' + p + '</button>';
+    }
+    html += '<button type="button" class="page-btn" data-page="' + (currentPage + 1) + '"' +
+            (currentPage === totalPages ? ' disabled' : '') + '>Next</button>';
+    html += '</div>';
+  }
+  box.innerHTML = html;
 }
 
 function fillCategories() {
