@@ -77,6 +77,16 @@ router.post('/bookings', verifyToken, async (req, res) => {
     );
 
     await connection.commit();
+    // Receipt email (the booking is already saved, so a failed email cannot break it)
+    db.query('SELECT name, email FROM users WHERE user_id = ?', [req.user.user_id], function (err, users) {
+      if (!err && users.length > 0) {
+        sendBookingReceipt({
+          to: users[0].email, name: users[0].name, bookingId: bookingId,
+          eventTitle: event.title, venue: event.venue, date: event.event_date,
+          ticketType: type, quantity: qty, total: totalAmount
+        });
+      }
+    });
 
     res.status(201).json({
       message: 'Booking confirmed!',
