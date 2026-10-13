@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const router = express.Router();
 const db = require('../config/db');
 const { verifyToken, verifyAdmin } = require('../middleware/authMiddleware');
+const { sendBookingReceipt } = require('../utils/mailer');
 
 const MAX_TICKETS = 10;     // maximum tickets in one booking
 const VIP_MULTIPLIER = 2;   // VIP ticket costs 2x the normal price
@@ -32,8 +33,7 @@ router.post('/bookings', verifyToken, async (req, res) => {
 
     // Lock the event row so two users cannot book the last seat at the same time
     // NEW: title is also selected, so the notification can show the event name
-    const [rows] = await connection.query(
-      'SELECT event_id, title, price, available_seats, status FROM events WHERE event_id = ? FOR UPDATE',
+    const [rows] = await connection.query('SELECT event_id, title, venue, event_date, price, available_seats, status FROM events WHERE event_id = ? FOR UPDATE',
       [event_id]
     );
 

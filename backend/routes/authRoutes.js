@@ -29,6 +29,7 @@ router.post('/register', async (req, res) => {
       'INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)',
       [name, email, hashedPassword, 'user']
     );
+    sendWelcomeEmail(name, email);   // no await: the response does not wait for the email
 
     res.status(201).json({ message: 'User registered successfully' });
 
