@@ -174,3 +174,67 @@
 .chart-wrap { position: relative; height: 300px; }
 
 .section-title { margin: 32px 0 12px; }
+/* ===== Digital ticket ===== */
+.ticket-card {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 760px;
+  margin: 24px auto;
+  background: #27221c;
+  border: 1px solid #443b30;
+  border-top: 3px solid #f5a524;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.ticket-main { flex: 1 1 380px; padding: 28px; }
+.ticket-brand {
+  margin: 0 0 6px;
+  color: #f5a524;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.ticket-main h2 { margin: 0 0 16px; font-size: 1.5rem; }
+.ticket-main p { margin: 6px 0; color: #b5aa9b; }
+.ticket-main strong { color: #f4efe6; }
+.ticket-id { word-break: break-all; font-size: 0.8rem; }
+
+.ticket-qr {
+  flex: 0 0 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  background: #fff;
+  border-left: 2px dashed #443b30;
+}
+.ticket-qr img { width: 180px; height: 180px; }
+.ticket-qr small { color: #444; }
+
+.ticket-actions { display: flex; justify-content: center; margin-bottom: 40px; }
+.ticket-actions .book-btn { width: auto; padding: 12px 32px; }
+
+.ticket-link {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 6px 14px;
+  color: #f5a524;
+  border: 1px solid #f5a524;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.ticket-link:hover { background: #f5a524; color: #1c1200; }
+.bookings-table td:last-child { white-space: nowrap; }
+
+/* Print: white paper, only the ticket */
+@media print {
+  .navbar, .no-print, .notif-wrap, .ticket-actions { display: none !important; }
+  body, body.home-page { background: #fff !important; color: #000 !important; }
+  .ticket-card { background: #fff !important; border: 1px solid #999 !important; }
+  .ticket-main h2, .ticket-main strong { color: #000 !important; }
+  .ticket-main p { color: #333 !important; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

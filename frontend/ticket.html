@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket - NexusCon</title>
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/booking.css">
+  <link rel="stylesheet" href="css/notifications.css">
+  
+</head>
+<body class="home-page">
+
+  <nav class="navbar">
+    <a href="index.html" class="brand">NexusCon</a>
+    <div class="nav-links">
+      <a href="index.html">Events</a>
+      <a href="profile.html">My Bookings</a>
+      <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+      <span id="userGreeting"></span>
+      <a href="login.html" id="loginLink">Login</a>
+      <a href="register.html" id="registerLink">Register</a>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+  <a class="back-link no-print" href="profile.html">&larr; Back to My Bookings</a>
+  <div id="ticketBox">Loading ticket...</div>
+  <div class="ticket-actions no-print">
+    <button id="downloadBtn" class="book-btn" style="display:none">Download Ticket (PDF)</button>
+  </div>
+</div>
+   
+</body>
+</html>
