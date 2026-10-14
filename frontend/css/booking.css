@@ -238,3 +238,27 @@
   .ticket-main p { color: #333 !important; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+/* ===== Verify page ===== */
+.verify-card {
+  max-width: 520px;
+  margin: 40px auto;
+  padding: 28px;
+  background: #27221c;
+  border: 1px solid #443b30;
+  border-radius: 16px;
+}
+.verify-card h2 { margin: 0 0 14px; }
+.verify-card p { margin: 8px 0; color: #b5aa9b; }
+.verify-card strong { color: #f4efe6; }
+.verify-card.valid { border-top: 4px solid #4ade80; }
+.verify-card.valid h2 { color: #4ade80; }
+.verify-card.invalid { border-top: 4px solid #ff6b6b; }
+.verify-card.invalid h2 { color: #ff6b6b; }
+
+/* Print: remove the blank second page */
+@page { size: A4 landscape; margin: 12mm; }
+@media print {
+  html, body, body.home-page { min-height: 0 !important; height: auto !important; }
+  .page-wrap { padding: 0 !important; margin: 0 !important; }
+  .ticket-card { margin: 0 auto !important; page-break-inside: avoid; }
+}

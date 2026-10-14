@@ -300,12 +300,44 @@ router.get('/bookings/:id/ticket', verifyToken, (req, res) => {
     }
 
     try {
-      ticket.qr = await QRCode.toDataURL('NEXUSCON:' + ticket.booking_id, { width: 300, margin: 1 });
+             // The QR holds a link, so scanning it opens the verify page
+      const base = req.protocol + '://' + req.get('host');
+      ticket.qr = await QRCode.toDataURL(base + '/verify.html?id=' + ticket.booking_id, { width: 300, margin: 1 });
       res.status(200).json(ticket);
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: 'Server error. Could not create the QR code.' });
     }
+  });
+});
+// VERIFY A TICKET (public: used when a QR code is scanned; shows only basic details)
+router.get('/verify/:id', (req, res) => {
+  const query = `SELECT b.ticket_type, b.quantity, b.status,
+                        e.title, e.venue, e.event_date, u.name AS holder
+                 FROM bookings b
+                 JOIN events e ON b.event_id = e.event_id
+                 JOIN users u ON b.user_id = u.user_id
+                 WHERE b.booking_id = ?`;
+
+  db.query(query, [req.params.id], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server error.' });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ valid: false, message: 'Ticket not found.' });
+    }
+    const t = results[0];
+    res.status(200).json({
+      valid: t.status === 'confirmed',
+      status: t.status,
+      title: t.title,
+      venue: t.venue,
+      event_date: t.event_date,
+      holder: String(t.holder).split(' ')[0],   // first name only
+      ticket_type: t.ticket_type,
+      quantity: t.quantity
+    });
   });
 });
 
