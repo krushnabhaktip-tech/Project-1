@@ -4,6 +4,7 @@ const router = express.Router();
 const db = require('../config/db');
 const { verifyToken, verifyAdmin } = require('../middleware/authMiddleware');
 const { sendBookingReceipt } = require('../utils/mailer');
+const QRCode = require('qrcode');
 
 const MAX_TICKETS = 10;     // maximum tickets in one booking
 const VIP_MULTIPLIER = 2;   // VIP ticket costs 2x the normal price
@@ -273,6 +274,39 @@ router.get('/admin/stats', verifyToken, verifyAdmin, async (req, res) => {
     console.log(err);
     res.status(500).json({ message: 'Server error. Could not load dashboard.' });
   }
+});
+// GET TICKET (a user can open only their own confirmed booking)
+router.get('/bookings/:id/ticket', verifyToken, (req, res) => {
+  const query = `SELECT b.booking_id, b.ticket_type, b.quantity, b.total_amount, b.status,
+                        e.title, e.venue, e.event_date, e.category,
+                        u.name AS holder
+                 FROM bookings b
+                 JOIN events e ON b.event_id = e.event_id
+                 JOIN users u ON b.user_id = u.user_id
+                 WHERE b.booking_id = ? AND b.user_id = ?`;
+
+  db.query(query, [req.params.id, req.user.user_id], async (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server error. Could not load ticket.' });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Ticket not found.' });
+    }
+
+    const ticket = results[0];
+    if (ticket.status !== 'confirmed') {
+      return res.status(400).json({ message: 'This booking is cancelled, so it has no ticket.' });
+    }
+
+    try {
+      ticket.qr = await QRCode.toDataURL('NEXUSCON:' + ticket.booking_id, { width: 300, margin: 1 });
+      res.status(200).json(ticket);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Server error. Could not create the QR code.' });
+    }
+  });
 });
 
 module.exports = router;
