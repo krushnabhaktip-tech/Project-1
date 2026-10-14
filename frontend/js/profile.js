@@ -71,8 +71,10 @@ async function loadBookings() {
 
     let rows = '';
     bookings.forEach(function (b) {
+      // CHANGED: confirmed bookings get a Ticket link and a Cancel button
       const action = b.status === 'confirmed'
-        ? '<button class="cancel-btn" data-id="' + escapeHtml(b.booking_id) + '">Cancel</button>'
+        ? '<a class="ticket-link" href="ticket.html?id=' + encodeURIComponent(b.booking_id) + '">Ticket</a>' +
+          '<button class="cancel-btn" data-id="' + escapeHtml(b.booking_id) + '">Cancel</button>'
         : '-';
 
       rows +=
@@ -92,7 +94,7 @@ async function loadBookings() {
       '<table class="bookings-table">' +
         '<thead><tr>' +
           '<th>Event</th><th>Event date</th><th>Ticket</th><th>Qty</th>' +
-          '<th>Total</th><th>Status</th><th>Booked on</th><th>Action</th>'+
+          '<th>Total</th><th>Status</th><th>Booked on</th><th>Action</th>' +
         '</tr></thead>' +
         '<tbody>' + rows + '</tbody>' +
       '</table>';
@@ -101,6 +103,7 @@ async function loadBookings() {
       '<p class="empty">Could not connect to the server. Is the backend running? (npm run dev)</p>';
   }
 }
+
 // ===== Profile box (view and edit name) =====
 const PROFILE_API = '/api/profile';
 
@@ -161,6 +164,7 @@ async function saveProfile() {
     msg.textContent = 'Could not connect to the server.';
   }
 }
+
 // ===== Cancel a booking =====
 document.getElementById('profileContent').addEventListener('click', async function (e) {
   if (!e.target.classList.contains('cancel-btn')) return;
@@ -185,14 +189,14 @@ document.getElementById('profileContent').addEventListener('click', async functi
 
     alert(data.message);
     loadBookings();   // reload the table so the new status shows
-        if (window.refreshNotifications) window.refreshNotifications();
+    if (window.refreshNotifications) window.refreshNotifications();
   } catch (error) {
     alert('Could not connect to the server.');
     e.target.disabled = false;
   }
 });
 
- if (token) {
+if (token) {
   loadProfile();
   loadBookings();
 }
